@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Jigsaw Puzzle" default="release">
+
+	<property file="build.properties" />
+
+	<property name="log4jlib" value="${resources}/log4j-1.2.15.jar" />
+
+	<target name="clean">
+		<delete dir="${target}" />
+	</target>
+
+	<target name="createDirs">
+		<mkdir dir="${target}" />
+		<mkdir dir="${target.package}" />
+		<mkdir dir="${target.release}" />
+	</target>
+
+	<target name="compile" depends="createDirs" description="compiles the source files without the tests">
+		<javac srcdir="${src}" destdir="${target.package}">
+			<include name="**/*.java" />
+			<exclude name="**/test/*" />
+			<classpath location="${log4jlib}" />
+		</javac>
+	</target>
+
+	<target name="compileTests" description="compiles all the test files">
+		<javac srcdir="${src}" destdir="${target.package}">
+			<include name="**/test/*" />
+			<classpath location="${log4jlib}" />
+		</javac>
+	</target>
+
+	<target name="copyResources">
+		<copy todir="${target.package}">
+			<fileset dir="${resources}">
+				<include name="puzzleLanguage_de_DE.properties" />
+				<include name="puzzleLanguage.properties" />
+				<include name="release_log4j.properties" />
+				<include name="pics/*" />
+				<include name="audio/*" />
+				<include name="images/*" />
+			</fileset>
+		</copy>
+		<move file="${target.package}/release_log4j.properties" tofile="${target.package}/log4j.properties" />
+	</target>
+
+	<target name="createReleaseJar" depends="compile,copyResources" description="creates the jar archive for release">
+		<jar destfile="${target.release}/jigsawpuzzle.jar" compress="true">
+			<fileset dir="${target.package}">
+				<exclude name="images/**" />
+				<exclude name="**/puzzle.jpg" />
+				<exclude name="**/puzzle.ico" />
+				<exclude name="**/Thumbs.db" />
+				<exclude name="**/test/*" />
+			</fileset>
+			<manifest>
+				<attribute name="Class-Path" value="lib/log4j-1.2.15.jar" />
+				<attribute name="Main-Class" value="puzzle.Main" />
+			</manifest>
+		</jar>
+
+	</target>
+
+	<target name="copyReleaseResource" description="copies all resources files that are needed for the release">
+		<mkdir dir="${target.release}/lib" />
+		<copy file="${log4jlib}" todir="${target.release}/lib" />
+		<copy todir="${target.release}">
+			<fileset dir="${target.package}">
+				<include name="images/*.jpg" />
+			</fileset>
+		</copy>
+		<copy file="${resources}/jigsawpuzzle.bat" todir="${target.release}" />
+		<copy file="${resources}/pics/puzzle.ico" todir="${target.release}" />
+	</target>
+
+	<target name="release">
+		<antcall target="clean" />
+		<antcall target="createReleaseJar" />
+		<ant target="copyReleaseResource" />
+	</target>
+
+</project>
