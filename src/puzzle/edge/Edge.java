@@ -352,9 +352,8 @@ public class Edge implements Storeable, Turnable {
 	}
 	
 	public String toString() {
-		String s = this.getClass().getName()+", EdgePairNumber:"+getEdgePairNumber()+
-		", Type:"+getType()+", Offset:"+offset.toString()+", open?"+this.open; 
-		return s;
+		return this.getClass().getName()+", EdgePairNumber:"+getEdgePairNumber()+
+		", Type:"+getType()+", Offset:"+offset.toString()+", open?"+this.open;
 	}
 
 }
