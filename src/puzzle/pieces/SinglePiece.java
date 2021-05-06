@@ -299,9 +299,8 @@ public class SinglePiece extends PuzzlePiece {
 	 * return a copy of the center point.
 	 */
 	public Point getPoint() {
-		int x = center.x;
-		int y = center.y;
-		return new Point(x, y);
+		//Inline Variable - Maynara
+		return new Point(center.x, center.y);
 	}
 
 	@Override
