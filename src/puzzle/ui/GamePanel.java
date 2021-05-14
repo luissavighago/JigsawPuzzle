@@ -182,11 +182,8 @@ public class GamePanel extends JPanel implements GameEventListener {
 		int dimWidth = d.width;
 		int dimHeight = d.height;
 		
-		if ((imageWidth == dimWidth) && (imageHeight == dimHeight)) {
-			return true;
-		} else {
-			return false;
-		}
+		//remoção de ifs
+		return ((imageWidth == dimWidth) && (imageHeight == dimHeight));
 	}
 
 	public Dimension getPreferredSize() {
