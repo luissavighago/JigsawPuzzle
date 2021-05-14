@@ -178,10 +178,8 @@ public class PuzzlePieceDisposer implements Storeable {
 	}
 
 	public boolean ends() {
-		if (this.puzzlePieces.size() == 1)
-			return true;
-		else
-			return false;
+		//Removido ifs
+		return (this.puzzlePieces.size() == 1);
 	}
 
 	public void reset() {

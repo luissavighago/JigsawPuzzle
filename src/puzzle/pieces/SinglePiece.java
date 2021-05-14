@@ -299,9 +299,8 @@ public class SinglePiece extends PuzzlePiece {
 	 * return a copy of the center point.
 	 */
 	public Point getPoint() {
-		int x = center.x;
-		int y = center.y;
-		return new Point(x, y);
+		//Inline Variable - Maynara
+		return new Point(center.x, center.y);
 	}
 
 	@Override
@@ -343,15 +342,11 @@ public class SinglePiece extends PuzzlePiece {
 
 	@Override
 	public boolean isWithinRectangle(Rectangle rect) {
+		//Removido Ifs que não são necessários
 		Rectangle myrect = this.getBoundingRectangle();
-		if (rect.contains(myrect))
-			return true;
-		if (rect.intersects(myrect))
-			return true;
-
-		return false;
+		return (rect.contains(myrect) || rect.intersects(myrect));
 	}
-
+	
 	@Override
 	public Rectangle getBoundingRectangle() {
 		Rectangle newmy = this.puzzleShape.getBounds();
