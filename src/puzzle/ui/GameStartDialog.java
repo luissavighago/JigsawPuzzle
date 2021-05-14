@@ -37,7 +37,7 @@ import puzzle.ui.extensions.ImagePreview;
 
 public class GameStartDialog extends JDialog {
 	
-	private static final Logger logger = Logger.getLogger(GameStartDialog.class);
+	private static final Logger logger = Logger.getLogger(TutorialDialog.class);
 
 	private final Dimension previewPanelSize = new Dimension(160, 200);
 

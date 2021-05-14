@@ -40,6 +40,7 @@ public class GameMainWindow extends JFrame implements GameEventListener, Storeab
 	private static final Logger logger = Logger.getLogger(GameMainWindow.class);
 	
 	private static GameMainWindow This;
+	
 	public static GameMainWindow getInstance() {
         return This;
     }
@@ -51,9 +52,11 @@ public class GameMainWindow extends JFrame implements GameEventListener, Storeab
                 This.setVisible(true);
             }
         });
+
     }
 
-	private GameStartDialog startDialog;
+	private TutorialDialog startDialog;
+	private TutorialDialog tutorialDialog;
 	private PreviewDialog previewDialog;
 	private LoadSaveFileChooser fileChooser;
 
@@ -98,8 +101,14 @@ public class GameMainWindow extends JFrame implements GameEventListener, Storeab
 		this.fileChooser = new LoadSaveFileChooser(this);
 		this.previewDialog = new PreviewDialog(this);
 		this.createBufferStrategy(2);
+		
 		// add me as a listener to the Game state
 		GameCommander.getInstance().addListener(this);
+		
+		if (this.tutorialDialog == null) {
+			this.tutorialDialog =  new TutorialDialog(this);
+		}
+        this.tutorialDialog.setVisible(true);
 	}
 
 	public GamePanel getGamePanel() {
@@ -276,6 +285,7 @@ public class GameMainWindow extends JFrame implements GameEventListener, Storeab
 		this.setJMenuBar(this.menuBar);
 		
 		this.pack();
+		
 	}
 	
 	/**
@@ -287,7 +297,7 @@ public class GameMainWindow extends JFrame implements GameEventListener, Storeab
 
 	private void clickedNewGame() {
 		if (this.startDialog == null) {
-			this.startDialog = new GameStartDialog(this);
+			this.startDialog = new TutorialDialog(this);
 		}
         this.startDialog.setVisible(true);
 	}
