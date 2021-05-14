@@ -1,10 +1,6 @@
 package puzzle.ui;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Frame;
-import java.awt.Image;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -27,6 +23,7 @@ import javax.swing.border.EtchedBorder;
 
 import org.apache.log4j.Logger;
 
+import org.w3c.dom.css.RGBColor;
 import puzzle.GameCommander;
 import puzzle.GamePreferences;
 import puzzle.PuzzleProperties;
@@ -156,6 +153,9 @@ public class GameStartDialog extends JDialog {
 
 		this.startButton = new JButton(PuzzleProperties
 				.getLocalized("newGameDialogStart"));
+		this.startButton.setBackground(new Color(173,255,47));
+		this.startButton.setOpaque(true);
+
 		this.startButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				startClicked();
@@ -164,6 +164,9 @@ public class GameStartDialog extends JDialog {
 
 		this.cancelButton = new JButton(PuzzleProperties
 				.getLocalized("newGameDialogCancel"));
+		this.cancelButton.setBackground(new Color(255,160,122));
+		this.cancelButton.setOpaque(true);
+
 		this.cancelButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				cancelClicked();
