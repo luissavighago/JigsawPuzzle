@@ -34,6 +34,7 @@
 		<copy todir="${target.package}">
 			<fileset dir="${resources}">
 				<include name="puzzleLanguage_de_DE.properties" />
+				<include name="puzzleLanguage_pt_BR.properties" />
 				<include name="puzzleLanguage.properties" />
 				<include name="release_log4j.properties" />
 				<include name="pics/*" />
