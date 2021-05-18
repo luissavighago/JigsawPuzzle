@@ -55,7 +55,7 @@ public class GameMainWindow extends JFrame implements GameEventListener, Storeab
 
     }
 
-	private TutorialDialog startDialog;
+	private GameStartDialog startDialog;
 	private TutorialDialog tutorialDialog;
 	private PreviewDialog previewDialog;
 	private LoadSaveFileChooser fileChooser;
@@ -297,7 +297,7 @@ public class GameMainWindow extends JFrame implements GameEventListener, Storeab
 
 	private void clickedNewGame() {
 		if (this.startDialog == null) {
-			this.startDialog = new TutorialDialog(this);
+			this.startDialog = new  GameStartDialog(this);
 		}
         this.startDialog.setVisible(true);
 	}
