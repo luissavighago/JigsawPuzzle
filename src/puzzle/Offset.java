@@ -25,6 +25,10 @@ import puzzle.storeage.Storeable;
  * 
  * @author Heinz
  */
+/**
+ * 
+ * @autor Heinz
+ */
 
 public class Offset implements Storeable  {
 
@@ -40,6 +44,9 @@ public class Offset implements Storeable  {
 	
 	/**
 	 * use only for restoring
+	 */
+	/**
+	 * use apenas para restaurar
 	 */
 	public Offset() {
 		

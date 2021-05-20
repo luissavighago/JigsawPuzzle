@@ -15,16 +15,31 @@ import puzzle.PuzzleProperties;
  * Use it in JFileChooser.setFileFilter
  * @author Heinz
  */
+/**
+ * Esta classe é um FileFilter que filtra
+ * arquivos para suas extensões.
+ * Por exemplo. é capaz de encontrar todos os .jpg
+ * arquivos dentro de um diretório.
+ * Use-o em JFileChooser.setFileFilter
+ * @autor Heinz
+ */
 public class ExtensionFileFilter extends FileFilter {
     
 	/**
 	 * the standard delimter which delimts the filename
 	 * from it's extension!
 	 */
+	/**
+	 * o delimitador padrão que delimita o nome do arquivo
+	 * de sua extensão!
+	 */
 	private final static char standardDelimiter = '.';
 	
 	/**
      * the list of extensions
+     */
+	/**
+     * a lista de extensões
      */
     private List<String> extensions;
     
@@ -32,6 +47,11 @@ public class ExtensionFileFilter extends FileFilter {
      * if true than this FileFilter accepts
      * directories (shows them one can go into)
      * if false than this is not allowed
+     */
+    /**
+     * se verdadeiro, então o FileFilter aceita
+     * diretórios (mostra a eles que se pode entrar)
+     * se falso, então não é permitido
      */
     private boolean acceptDirectorys;
     

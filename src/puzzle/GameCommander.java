@@ -33,6 +33,10 @@ import puzzle.ui.GameMainWindow;
  * 
  * @author Heinz
  */
+/**
+ * 
+ * @autor Heinz
+ */
 public class GameCommander extends GameState implements GameEventListener,
 		Storeable {
 	
@@ -57,6 +61,7 @@ public class GameCommander extends GameState implements GameEventListener,
 	}
 
 	/** Creates a new instance of GameCommander */
+	/** Cria uma nova instância de GameCommander */
 	private GameCommander() {
 		super();
 		this.addListener(this);
@@ -89,6 +94,9 @@ public class GameCommander extends GameState implements GameEventListener,
 
 	/*
 	 * START OF xxxGame
+	 */
+	/*
+	 * INÍCIO DO xxxJogo
 	 */
 	public void resetGame() {
 		this.builder = new PuzzleBuilder();
@@ -149,6 +157,9 @@ public class GameCommander extends GameState implements GameEventListener,
 
 	/*
 	 * END OF xxxGame
+	 */
+	/*
+	 * FIM DO xxxJogo
 	 */
 
 	public static GameCommander getInstance() {

@@ -29,6 +29,10 @@ import puzzle.storeage.StorageUtil;
  * 
  * @author Heinz
  */
+/**
+ * 
+ * @autor Heinz
+ */
 public class MultiPiece extends PuzzlePiece {
 
 	private static final Logger logger = Logger.getLogger(MultiPiece.class);
@@ -48,6 +52,9 @@ public class MultiPiece extends PuzzlePiece {
 
 	/**
 	 * use only for storage
+	 */
+	/**
+	 * use apenas para armazenamento
 	 */
 	public MultiPiece() {
 		this.singlePieces = new Vector<SinglePiece>();
@@ -99,6 +106,14 @@ public class MultiPiece extends PuzzlePiece {
 	 * @param currentPath
 	 * @throws JigsawPuzzleException 
 	 */
+	/**
+	 * retorna os pontos inicial e final para este caminho geral; o primeiro ponto é
+	 * o único segmento moveTo neste caminho, o lastPoint é o último
+	 * lineTo segmento neste caminho
+	 * 
+	 * @param caminho atual
+	 * @throws JigsawPuzzleException 
+	 */
 	protected Point[] getPoints(Shape shape) throws JigsawPuzzleException {
 		// logger.debug("getPoints");
 		int ret;
@@ -111,6 +126,8 @@ public class MultiPiece extends PuzzlePiece {
 			ret = pIt.currentSegment(passVariable);
 			if (ret == PathIterator.SEG_MOVETO) { // the moveto is only done
 													// once!
+												  // o movimento só é feito
+												    // uma vez!
 				if (firstPoint != null) {
 					throw new JigsawPuzzleException(
 							"this path has more than one moveTo");
@@ -122,6 +139,11 @@ public class MultiPiece extends PuzzlePiece {
 															// the last lineto
 															// is the important
 															// thing!
+														 // lineto pode ser feito
+															// mais frequentemente, mas
+															// o último lineto
+															// é o importante
+															// coisa!
 				lastPoint = new Point((int) passVariable[0],
 						(int) passVariable[1]);
 			}
@@ -142,6 +164,12 @@ public class MultiPiece extends PuzzlePiece {
 	 * as the lines are not moved to each other as in the initial idea.
 	 * @throws JigsawPuzzleException 
 	 */
+	/**
+	* agora esta versão pode lidar com buracos em peças de quebra-cabeça.
+	* TODO, há um problema aqui: a forma das peças parece diferente
+	* já que as linhas não se movem entre si como na ideia inicial.
+	* @throws JigsawPuzzleException
+	*/
 	@Override
 	protected void buildShape() throws JigsawPuzzleException {
 		logger.info("buildShape - advanced version");
@@ -149,17 +177,23 @@ public class MultiPiece extends PuzzlePiece {
 		/* the resultingArea means the resultingShape
 		 * and a list of shapes for the smaller shapes
 		 */
+		/* a ResultArea significa a ResultShape
+		 * e uma lista de formas para as formas menores
+		 */
 		List<Shape> shapes = new ArrayList<Shape>();
 		Area resultingArea = new Area();
 
 		// inits a shrinking list of edges - to be sure to hit all the edges!
+		// inicia uma lista cada vez menor de arestas - para ter certeza de atingir todas as arestas!
 		List<Edge> allEdges = new ArrayList<Edge>();
 		allEdges.addAll(this.getOpenEdges());
 
 		while (allEdges.size() != 0) { // hopefully use all the edges
+									   // espero usar todas as arestas
 			logger.debug("going to find an outline");
 			
 			// init the first edge
+			// init a primeira borda
 			Edge currentEdge = allEdges.get(0);
 			shapes.add(currentEdge.getShape());
 			allEdges.remove(currentEdge);
@@ -169,7 +203,9 @@ public class MultiPiece extends PuzzlePiece {
 			
 			boolean isCompleted = false;
 			while (!isCompleted) { // for every complete shape outline!
+								   // para cada contorno de forma completo!
 				for (int i = 0; i < allEdges.size(); i++) { // through all puzzle pieces left
+															// através de todas as peças do quebra-cabeça restantes
 					Edge nextEdge = allEdges.get(i);
 
 					Point[] nextEdgePts = getPoints(nextEdge.getShape());
@@ -177,6 +213,10 @@ public class MultiPiece extends PuzzlePiece {
 					/*
 					 * we should not connect a BOTTOM with a TOP or a RIGHT with
 					 * a LEFT edge that is not valid. start test
+					 */
+					/*
+					 * não devemos conectar um BOTTOM com um TOP ou um RIGHT com
+					 * uma borda ESQUERDA que não é válida. começar o teste
 					 */
 					Edge.Type currentType = currentEdge.getType();
 					Edge.Type nextType = nextEdge.getType();
@@ -194,23 +234,28 @@ public class MultiPiece extends PuzzlePiece {
 								.debug("tried to connect LEFT-RIGHT or TOP-BOTTOM that's invalid");
 						continue;
 					}
-					// end of the test
+					// fim do teste
 
-					// test if we have the right edge:
+					// teste se temos a borda direita:
 					boolean normal = currentPoint.equals(nextEdgePts[0]);
-					// normal the end of the currentEdge is same as the start of
-					// the next
+					// normal, o final de currentEdge é igual ao início de
+					// nas próximas
 					boolean reversed = currentPoint.equals(nextEdgePts[1]);
-					// not normal but possible the end of the current is the end
-					// of the next -> mirrored
+					// não é normal, mas possível, o fim da corrente é o fim
+					// do próximo -> espelhado
 					if (normal ^ reversed) { // XOR bitwise or logical has no
 												// difference in this context
+											 // XOR bit a bit ou lógico não tem
+												// diferença neste contexto
 						if (normal) {
 							currentPoint = nextEdgePts[1]; // the next end point
+														   // o próximo ponto final
 							shapes.add(nextEdge.getShape());
 						} else if (reversed) {
 							currentPoint = nextEdgePts[0]; // the next start
 															// point
+														   // o próximo começo
+															// apontar
 							Shape reversedShape = ShapeUtil
 									.createReversed(nextEdge.getShape());
 							shapes.add(reversedShape);
@@ -225,6 +270,11 @@ public class MultiPiece extends PuzzlePiece {
 						 * inner or outer outlines maybe there but are not
 						 * connected to this shape!
 						 */
+						/*
+						 * teste se foi uma vez através de um esboço (adicional
+						 * contornos internos ou externos podem existir, mas não são
+						 * conectado a esta forma!
+						 */
 						if (endPoint.equals(nextEdgePts[1])
 								|| endPoint.equals(nextEdgePts[0])) {
 							logger.info("found the endpoint - one shape is done!");
@@ -232,23 +282,31 @@ public class MultiPiece extends PuzzlePiece {
 						}
 						
 						// here the shit goes to the next iteration
+						// aqui a merda vai para a próxima iteração
 						allEdges.remove(nextEdge);
 						currentEdge = nextEdge;
 						break;
 					}
 
 				}
-			} // a complete outline is done! - maybe there are more outlines.
+			} // um esboço completo está feito! - talvez haja mais contornos.
 			/*
 			 * here an area has always to be created because one will begin
 			 * with "some" edge it is not clear if this is the outer outline
 			 * or an inner outline so always create areas here and than add
 			 * the other areas to it.
 			 */
+			/*
+			 * aqui uma área sempre deve ser criada porque uma começará
+			 * com "alguma" aresta não está claro se este é o contorno externo
+			 * ou um contorno interno, portanto, sempre crie áreas aqui e depois adicione
+			 * as outras áreas a ele.
+			 */
 			GeneralPath gp = new GeneralPath();
 			for (int i = 0; i < shapes.size(); i++) {
 				gp.append(shapes.get(i), true);
 				// maybe we have to close the shape here!
+				// talvez tenhamos que fechar a forma aqui!
 			}
 			shapes.clear();
 			resultingArea.exclusiveOr(new Area(gp));
@@ -260,18 +318,24 @@ public class MultiPiece extends PuzzlePiece {
 	/**
 	 * this version cannot handle holes in the structure - than it hangs.
 	 */
+	/**
+	 * esta versão não pode lidar com buracos na estrutura - do que trava.
+	 */
 	//@Override
 	protected void buildShape2() throws JigsawPuzzleException { 
 											// the structure
+											// a estrutura
 		logger.info("buildShape - simple version");
 
 		List<Shape> shapes = new ArrayList<Shape>();
 
 		// inits a shrinking list of edges - to be sure to hit all the edges!
+		// inicia uma lista cada vez menor de arestas - para ter certeza de atingir todas as arestas!
 		List<Edge> allEdges = new ArrayList<Edge>();
 		allEdges.addAll(this.getOpenEdges());
 
 		// init the first edge
+		// init a primeira borda
 		Edge currentEdge = allEdges.get(0);
 		shapes.add(currentEdge.getShape());
 		allEdges.remove(currentEdge);
@@ -284,6 +348,7 @@ public class MultiPiece extends PuzzlePiece {
 				Point[] nextEdgePts = getPoints(nextEdge.getShape());
 
 				// test if we have the right edge:
+				// teste se temos a borda direita:
 				boolean normal = currentPoint.equals(nextEdgePts[0]);// normal
 																		// the
 																		// end
@@ -298,6 +363,20 @@ public class MultiPiece extends PuzzlePiece {
 																		// of
 																		// the
 																		// next
+																	 // normal
+																		// a
+																		// fim
+																		// de
+																		// a
+																		// currentEdge
+																		// é
+																		// mesmo
+																		// como
+																		// a
+																		// começar
+																		// de
+																		// a
+																		// Next
 				boolean mirrored = currentPoint.equals(nextEdgePts[1]);// not
 																		// normal
 																		// but
@@ -315,15 +394,36 @@ public class MultiPiece extends PuzzlePiece {
 																		// next
 																		// ->
 																		// mirrored
+																	   // não
+																		// normal
+																		// mas
+																		// possível
+																		// a
+																		// fim
+																		// de
+																		// a
+																		// atual
+																		// é
+																		// a
+																		// fim
+																		// de
+																		// a
+																		// Next
+																		// ->
+																		// espelhado
 
 				if (normal ^ mirrored) { // XOR bitwise or logical has no
 											// difference in this context
+										 // XOR bit a bit ou lógico não tem
+											// diferença neste contexto
 
 					if (normal) {
 						currentPoint = nextEdgePts[1]; // the next end point
+													   // o próximo ponto final
 						shapes.add(nextEdge.getShape());
 					} else if (mirrored) {
 						currentPoint = nextEdgePts[0]; // the next start point
+													   // o próximo ponto inicial
 						Shape mirror = ShapeUtil.createReversed(nextEdge
 								.getShape());
 						/*
@@ -332,10 +432,17 @@ public class MultiPiece extends PuzzlePiece {
 						 * mirror =
 						 * MIRROR.createTransformedShape(nextEdge.getShape());
 						 */
+						/*
+						 * AffineTransform MIRROR =
+						 * AffineTransform.getScaleInstance (-1, -1); Forma
+						 * espelho =
+						 * MIRROR.createTransformedShape (nextEdge.getShape ());
+						 */
 						shapes.add(mirror);
 					}
 
 					// here the shit goes to the next iteration
+					// aqui a merda vai para a próxima iteração
 					allEdges.remove(nextEdge);
 					currentEdge = nextEdge;
 					break;
@@ -344,6 +451,7 @@ public class MultiPiece extends PuzzlePiece {
 			}
 		}
 		// build all the shapes together
+		// construir todas as formas juntas
 		GeneralPath gp = new GeneralPath();
 		for (int i = 0; i < shapes.size(); i++) {
 			gp.append(shapes.get(i), true);
@@ -353,6 +461,9 @@ public class MultiPiece extends PuzzlePiece {
 
 	/**
 	 * this version does not work properly as it does not put the edge shapes together appropriately.
+	 */
+	/**
+	 * esta versão não funciona corretamente, pois não une as formas das bordas de maneira adequada.
 	 */
 	//@Override
 	protected void buildShape_2() throws JigsawPuzzleException {
@@ -413,6 +524,7 @@ public class MultiPiece extends PuzzlePiece {
 	public Rectangle getBoundingRectangle() throws JigsawPuzzleException {
 		Rectangle ret = this.getShape().getBounds();
 		// see GAPs for explanation
+		// veja GAPs para explicação
 		return new Rectangle(ret.x - GAP_X, ret.y - GAP_Y, ret.width
 				+ GAP_WIDTH, ret.height + GAP_HEIGHT);
 	}

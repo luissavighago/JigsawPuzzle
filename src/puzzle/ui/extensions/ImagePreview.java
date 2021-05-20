@@ -24,6 +24,9 @@ public class ImagePreview extends JComponent implements PropertyChangeListener {
         //Don't use createImageIcon (which is a wrapper for getResource)
         //because the image we're trying to load is probably not one
         //of this program's own resources.
+        // Não use createImageIcon (que é um wrapper para getResource)
+        // porque a imagem que estamos tentando carregar provavelmente não é uma
+        // dos recursos próprios deste programa.
         ImageIcon tmpIcon = new ImageIcon(file.getPath());
         if (tmpIcon != null) {
             if (tmpIcon.getIconWidth() > 90) {
@@ -31,6 +34,7 @@ public class ImagePreview extends JComponent implements PropertyChangeListener {
                         getScaledInstance(90, -1,
                         Image.SCALE_DEFAULT));
             } else { //no need to miniaturize
+            		 // não há necessidade de miniaturizar
                 thumbnail = tmpIcon;
             }
         }
@@ -41,17 +45,20 @@ public class ImagePreview extends JComponent implements PropertyChangeListener {
         String prop = e.getPropertyName();
         
         //If the directory changed, don't show an image.
+        // Se o diretório mudou, não mostra uma imagem.
         if (JFileChooser.DIRECTORY_CHANGED_PROPERTY.equals(prop)) {
             file = null;
             update = true;
             
             //If a file became selected, find out which one.
+            // Se um arquivo foi selecionado, descubra qual.
         } else if (JFileChooser.SELECTED_FILE_CHANGED_PROPERTY.equals(prop)) {
             file = (File) e.getNewValue();
             update = true;
         }
         
         //Update the preview accordingly.
+        // Atualize a visualização de acordo.
         if (update) {
             thumbnail = null;
             if (isShowing()) {

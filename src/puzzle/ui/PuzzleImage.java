@@ -44,6 +44,15 @@ import puzzle.storeage.Storeable;
  * 
  * @author Heinz
  */
+/**
+ * armazena informações sobre uma imagem do quebra-cabeça, mantém o (se necessário)
+ * imagem redimensionada
+ * 
+ * primeiro chame o isResizableToGoodQuality com o comprimento lateral do seu desejo
+ * depois disso chame resize () para fazer o redimensionamento.
+ * 
+ * @autor Heinz
+ */
 public class PuzzleImage implements Storeable {
 
 	/**
@@ -51,6 +60,12 @@ public class PuzzleImage implements Storeable {
 	 * rescaled than it might be a bad quality TODO find out if there is a
 	 * visual difference between up and downscale and possibly we need two
 	 * values one for up and one for down scaling
+	 */
+	/**
+	 * decisão de boa / má qualidade, se um lado for mais do que este fator
+	 * reescalonado do que pode ser uma má qualidade TODO descobrir se há um
+	 * diferença visual entre up e downscale e possivelmente precisamos de dois
+	 * valores um para aumento e um para redução
 	 */
 	private static final double QUALTITY_RESIZE_OFFSET = 0.22d;
 
@@ -90,20 +105,32 @@ public class PuzzleImage implements Storeable {
 	/**
 	 * the original image (original in size)
 	 */
+	/**
+	 * a imagem original (tamanho original)
+	 */
 	private BufferedImage originalImage; // the pic in the new sized form
 
 	/**
 	 * the rescaled image to fit to the sideLength of the puzzle game
+	 */
+	/**
+	 * a imagem redimensionada para caber no comprimento lateral do jogo de quebra-cabeça
 	 */
 	private BufferedImage resizedImage;
 
 	/**
 	 * new size of the image
 	 */
+	/**
+	 * novo tamanho da imagem
+	 */
 	private Dimension resampleSize;
 
 	/**
 	 * a constructor for storage
+	 */
+	/**
+	 * um construtor para armazenamento
 	 */
 	public PuzzleImage() {
 
@@ -140,6 +167,9 @@ public class PuzzleImage implements Storeable {
 	/**
 	 * retrieves the whole image (for preview etc.)
 	 */
+	/**
+	 * recupera a imagem inteira (para visualização etc.)
+	 */
 	public BufferedImage getImage() {
 		return this.resizedImage;
 	}
@@ -154,6 +184,16 @@ public class PuzzleImage implements Storeable {
 	 *            the row index the image should be from (0 to count-1)
 	 * @return the image for column and row
 	 */
+	/**
+	 * recupera uma parte específica da imagem para uso nas peças individuais
+	 * 
+	 * @param coluna
+	 * 			  um índice de coluna específico em que a imagem deve ser (0 a
+	 * 			  contagem-1)
+	 * @param linha
+	 *            o índice de linha da imagem deve ser (0 a contagem-1)
+	 * @return a imagem para coluna e linha
+	 */
 	public BufferedImage getImage(int column, int row) {
 		int sideLength = GameCommander.getInstance().getPreferences()
 				.getSideLength();
@@ -165,6 +205,9 @@ public class PuzzleImage implements Storeable {
 		// here are the later coordinates for the image that should be retrieved
 		// from the original bigger image, so x and y are the upper left point
 		// and together with width they are entirely in the original image
+		// aqui estão as últimas coordenadas para a imagem que deve ser recuperada
+		// da imagem original maior, então x e y são o ponto superior esquerdo
+		// e junto com a largura, eles estão inteiramente na imagem original
 		final int sectionX, sectionY, sectionWidth, sectionHeight;
 
 		boolean firstColumn = false;
@@ -176,30 +219,34 @@ public class PuzzleImage implements Storeable {
 		// cut out an image that has twice the area of the really needed image.
 		// so the x point lies half side length more left and more high than the
 		// piece starts. Only at the border you have to choose smaller.
-		if (column == 0) { // first column
+		// certifique-se de cortar uma parte da imagem que seja grande o suficiente, portanto, tente
+		// recorte uma imagem que tenha o dobro da área da imagem realmente necessária.
+		// então o ponto x fica na metade do comprimento do lado mais à esquerda e mais alto do que o
+		// a peça começa. Só na borda você tem que escolher o menor.
+		if (column == 0) { // first column // primeira coluna
 			sectionX = 0; // if column == null -> x == 0
 			sectionWidth = sideLength * 2;
 			firstColumn = true;
 		} else if (column == GameCommander.getInstance().getPreferences()
-				.getColumns() - 1) { // last column
+				.getColumns() - 1) { // last column // última coluna
 			sectionX = x - halfSideLength;
 			sectionWidth = sideLength * 2 - halfSideLength;
 			lastColumn = true;
-		} else { // some column between
+		} else { // some column between // alguma coluna entre
 			sectionX = x - halfSideLength;
 			sectionWidth = sideLength * 2;
 		}
 
-		if (row == 0) { // first row
+		if (row == 0) { // first row // primeira linha
 			sectionY = 0; // if row == 0 -> y == 0
 			sectionHeight = sideLength * 2;
 			firstRow = true;
 		} else if (row == GameCommander.getInstance().getPreferences()
-				.getRows() - 1) { // last row
+				.getRows() - 1) { // last row // última linha
 			sectionY = y - halfSideLength;
 			sectionHeight = sideLength * 2 - halfSideLength;
 			lastRow = true;
-		} else { // some row between
+		} else { // some row between // alguma linha entre
 			sectionY = y - halfSideLength;
 			sectionHeight = sideLength * 2;
 		}
@@ -241,6 +288,11 @@ public class PuzzleImage implements Storeable {
 	 * @param sideLength
 	 * @return true if the size doesn't suffer too much
 	 */
+	/**
+	 * testa se este PuzzleImage é resiable dentro de certos parâmetros
+	 * @param comprimento lateral
+	 * @return verdadeiro se o tamanho não sofrer muito
+	 */
 	public boolean isResizableToGoodQuality(int sideLength) {
 		final int imgWidth = this.originalImage.getWidth();
 		final int imgHeight = this.originalImage.getHeight();
@@ -254,26 +306,30 @@ public class PuzzleImage implements Storeable {
 		int newWidth, newHeight;
 		double widthChangePercentage, heightChangePercentage;
 
-		if (widthBelow < widthAbove) { // it's better to scale up
+		if (widthBelow < widthAbove) { // it's better to scale up // é melhor aumentar
 			newWidth = imgWidth + widthBelow;
 			// new width is bigger than old so the result is 1.xx to get
 			// percentage substract 1
+			// a nova largura é maior do que a antiga, então o resultado é 1.xx para obter
+			// porcentagem de substrato 1
 			widthChangePercentage = (newWidth / (double) imgWidth) - 1;
-		} else { // it's better to scale down
+		} else { // it's better to scale down // é melhor reduzir
 			newWidth = imgWidth - widthAbove;
 			// new one is smaller
+			// o novo é menor
 			widthChangePercentage = (imgWidth / (double) newWidth) - 1;
 		}
 
-		if (heightBelow < heightAbove) { // better scale up
+		if (heightBelow < heightAbove) { // better scale up // melhor escalar
 			newHeight = imgHeight + heightBelow;
 			heightChangePercentage = (newHeight / (double) imgHeight) - 1;
-		} else { // better scale down
+		} else { // better scale down // melhor reduzir
 			newHeight = imgHeight - heightAbove;
 			heightChangePercentage = (imgHeight / (double) newHeight) - 1;
 		}
 
 		// calculate if the resize factor is within the range from 0 to
+		// calcule se o fator de redimensionamento está dentro do intervalo de 0 a
 		// QUALTITY_RESIZE_OFFSET
 		this.resampleSize = new Dimension(newWidth, newHeight);
 		if ((widthChangePercentage < QUALTITY_RESIZE_OFFSET)
@@ -288,6 +344,10 @@ public class PuzzleImage implements Storeable {
 	/**
 	 * resizes this image to the size that isResizableToGoodQuality sets
 	 * call this method to actively resize this instance.
+	 */
+	/**
+	 * redimensiona esta imagem para o tamanho que isResizableToGoodQuality define
+	 * chame este método para redimensionar ativamente esta instância.
 	 */
 	public void resize() {
 		if (resampleSize != null) {
@@ -314,6 +374,9 @@ public class PuzzleImage implements Storeable {
 	/**
 	 * resizes this image so, that his aspect is hold but resized to fit
 	 */
+	/**
+	 * redimensiona esta imagem para que seu aspecto seja mantido, mas redimensionado para caber
+	 */
 	public Image resizeToFit(Dimension d) {
 		int heightImage = this.originalImage.getHeight();
 		int widthImage = this.originalImage.getWidth();
@@ -322,10 +385,12 @@ public class PuzzleImage implements Storeable {
 		double heightRatio = d.height / (double) heightImage;
 
 		// test which from those above are nearer to 0
+		// teste quais daqueles acima estão mais próximos de 0
 		double widthRatioAbs = Math.abs(widthRatio);
 		double heightRatioAbs = Math.abs(heightRatio);
 
 		// new x and y
+		// novo x e y
 		double x, y;
 
 		if (widthRatioAbs < heightRatioAbs) {
@@ -386,6 +451,7 @@ public class PuzzleImage implements Storeable {
 		}
 
 		// get the primitives
+		// obter os primitivos
 		NamedNodeMap nnm = puzzleImage.getAttributes();
 		Node item;
 
@@ -396,7 +462,7 @@ public class PuzzleImage implements Storeable {
 		int heigth = Integer.parseInt(item.getNodeValue());
 
 		this.resampleSize = new Dimension(width, heigth);
-		this.resize(); // inits the resizedImage
+		this.resize(); // inits the resizedImage // inicia o resizedImage
 	}
 
 	@Override
@@ -406,6 +472,7 @@ public class PuzzleImage implements Storeable {
 
 		ByteArrayOutputStream imageByteStream = new ByteArrayOutputStream();
 		// write the image in the format to the byte stream array
+		// escreve a imagem no formato para a matriz de fluxo de bytes
 		try {
 			ImageIO.write(this.originalImage, "png", imageByteStream);
 		} catch (IOException e) {
@@ -415,10 +482,12 @@ public class PuzzleImage implements Storeable {
 		StorageUtil.storeBinaryData(image, "ImageData", imageByteStream
 				.toByteArray());
 
-		// write the primitives
+		// write the primitives 
+		// escreva os primitivos
 		image.setAttribute("resampleSizeWidth", "" + this.resampleSize.width);
 		image.setAttribute("resampleSizeHeigth", "" + this.resampleSize.height);
 		// store to the current element
+		// armazena no elemento atual
 		current.appendChild(image);
 	}
 

@@ -21,16 +21,24 @@ import puzzle.ui.GameMainWindow;
  *
  * @author Heinz
  */
+/**
+*
+* @autor Heinz
+*/
 public class Main {
 	
 	private static Logger logger = Logger.getLogger(Main.class);
     
     /** Creates a new instance of Main */
+	/** Cria uma nova instância de Main */
     public Main() {
     }
     
     /**
      * @param args the command line arguments
+     */
+    /**
+     * @param args os argumentos da linha de comando
      */
     public static void main(String[] args) {
     	setLookAndFeel();
@@ -54,6 +62,7 @@ public class Main {
 			        "com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
 		} catch (ClassNotFoundException | UnsupportedLookAndFeelException | IllegalAccessException | InstantiationException e) {
 			// TODO Auto-generated catch block
+			// TODO bloco de captura gerado automaticamente
 			e.printStackTrace();
 		}
 	}

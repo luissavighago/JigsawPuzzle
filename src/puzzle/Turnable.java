@@ -11,6 +11,9 @@ public interface Turnable {
 	/**
 	 * turns this for given degree's around the given point. 
 	 */
+	/**
+	 * transforma isso para determinado grau em torno do ponto determinado. 
+	 */
 	public void turnDegrees(Point turnPoint, int degree);
 
 }

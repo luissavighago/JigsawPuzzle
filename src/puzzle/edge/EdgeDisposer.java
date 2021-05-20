@@ -13,10 +13,17 @@ import puzzle.storeage.JigsawPuzzleException;
  * 
  * @author Heinz
  */
+/**
+ * 
+ * @autor Heinz
+ */
 public class EdgeDisposer {
 
 	/**
 	 * this one saves the contrary edges
+	 */
+	/**
+	 * este salva as bordas contrárias
 	 */
 	private final Map<Integer, GeneralPath> edgePaths;
 
@@ -30,6 +37,10 @@ public class EdgeDisposer {
 
 	/**
 	 * generates a new randomly choosen edge shape (as GeneralPath instance)
+	 * @throws JigsawPuzzleException 
+	 */
+	/**
+	 * gera uma nova forma de borda escolhida aleatoriamente (como instância GeneralPath)
 	 * @throws JigsawPuzzleException 
 	 */
 	public GeneralPath generateNewEdgeShape(int edgeNumber, Edge.Type type) throws JigsawPuzzleException {
@@ -48,6 +59,11 @@ public class EdgeDisposer {
 	/**
 	 * finds the contrary edge shape that fits to the generated shape with the
 	 * same edgeNumber.
+	 * @throws JigsawPuzzleException 
+	 */
+	/**
+	 * encontra a forma de borda contrária que se ajusta à forma gerada com o
+	 * mesmo edgeNumber.
 	 * @throws JigsawPuzzleException 
 	 */
 	public GeneralPath findContraryEdgeShape(int edgeNumber, Edge.Type type) throws JigsawPuzzleException {
@@ -73,12 +89,22 @@ public class EdgeDisposer {
 	 *            the gp instance which should be turned
 	 * @throws JigsawPuzzleException 
 	 */
+	/**
+	 * transforma esta forma para ficar à direita
+	 * 
+	 * @param typ
+	 *            virar para este tipo
+	 * @param para modificar
+	 *            a instância gp que deve ser ativada
+	 * @throws JigsawPuzzleException 
+	 */
 	private void turnToType(Edge.Type typ, GeneralPath tomodify) throws JigsawPuzzleException {
 
 		switch (typ) {
 
 		case TOP:
 			// do nothing because it's already in correct place
+			// não faça nada porque já está no lugar correto
 			break;
 
 		case BOTTOM:

@@ -18,6 +18,10 @@ import java.util.ResourceBundle;
  * 
  * @author Heinz
  */
+/**
+ * 
+ * @autor Heinz
+ */
 public class PuzzleProperties {
 
 	public static final String APPLICATION_ICON_FILE = "/pics/puzzle.gif";
@@ -50,20 +54,32 @@ public class PuzzleProperties {
 	/**
 	 * prefix for language file
 	 */
+	/**
+	 * prefixo para arquivo de linguagem
+	 */
 	private static final String languageFilePrefix = "puzzleLanguage";
 
 	/**
 	 * the placeholder if no language has been loaded, or key has no value
+	 */
+	/**
+	 * o placeholder se nenhum idioma tiver sido carregado ou a chave não tiver valor
 	 */
 	private static final String placeholder = "*";
 
 	/**
 	 * indicates whether the language has been loaded or not
 	 */
+	/**
+	 * indica se o idioma foi carregado ou não
+	 */
 	private static boolean languageInitiated;
 	
 	/**
 	 * returns the local text String for this key
+	 */
+	/**
+	 * retorna a string de texto local para esta chave
 	 */
 	public static String getLocalized(String key) {
     	String localValue = null;
@@ -85,6 +101,7 @@ public class PuzzleProperties {
 	}
 	
 	/** Creates a new instance of PuzzleProperties */
+	/** Cria uma nova instância de PuzzleProperties */
 	private PuzzleProperties() {
 		
 	}

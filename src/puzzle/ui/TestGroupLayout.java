@@ -99,14 +99,20 @@ public class TestGroupLayout extends JFrame {
 		   this.setLayout(layout);
 		 
 		   // Turn on automatically adding gaps between components
+		   // Ative a adição automática de lacunas entre os componentes
 		   layout.setAutoCreateGaps(true);
 		 
 		   // Turn on automatically creating gaps between components that touch
 		   // the edge of the container and the container.
+		   // Liga a criação automática de lacunas entre os componentes que tocam
+		   // a borda do contêiner e o contêiner.
 		   layout.setAutoCreateContainerGaps(true);
 		 
 		   /*
 		    * new attempt for better reading:
+		    */
+		   /*
+		    * nova tentativa de melhor leitura:
 		    */
 		   
 		   layout.setHorizontalGroup(
@@ -129,6 +135,9 @@ public class TestGroupLayout extends JFrame {
 		   
 		   /*
 		    * end of new attempt
+		    */
+		   /*
+		    * fim de nova tentativa
 		    */
 		   
 		   
@@ -168,6 +177,7 @@ public class TestGroupLayout extends JFrame {
 	
 	protected void showErrorMessage(String title, String message) {
 		// TODO Auto-generated method stub
+		// TODO stub do método gerado automaticamente
 		
 	}
 
@@ -177,11 +187,13 @@ public class TestGroupLayout extends JFrame {
 
 	protected void cancelClicked() {
 		// TODO Auto-generated method stub
+		// TODO stub do método gerado automaticamente
 		
 	}
 
 	protected void startClicked() {
 		// TODO Auto-generated method stub
+		// TODO stub do método gerado automaticamente
 		
 	}
 	

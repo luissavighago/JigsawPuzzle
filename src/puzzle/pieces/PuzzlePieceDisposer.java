@@ -28,6 +28,10 @@ import puzzle.storeage.Storeable;
  * Holds the list of pusszles and all things related to the puzzle pieces.
  * @author Heinz
  */
+/**
+ * Contém a lista de gatinhos e todas as coisas relacionadas às peças do quebra-cabeça.
+ * @autor Heinz
+ */
 
 public class PuzzlePieceDisposer implements Storeable {
 
@@ -36,6 +40,12 @@ public class PuzzlePieceDisposer implements Storeable {
 	 * initially this is a list of only consisting of single pieces
 	 * if pieces are snapped together than the resulting multipiece
 	 * will be included in the list and the two other will be deleted 
+	 */
+	/**
+	 * lista de todas as peças do quebra-cabeça atualmente no jogo
+	 * inicialmente, esta é uma lista composta apenas por peças individuais
+	 * se as peças forem encaixadas juntas do que o multipiece resultante
+	 * será incluído na lista e os outros dois serão excluídos 
 	 */
 	private List<PuzzlePiece> puzzlePieces;
 
@@ -55,6 +65,14 @@ public class PuzzlePieceDisposer implements Storeable {
 	 * it will return an arbitrary one. If none found
 	 * it returns null.
 	 */
+	/**
+	 * encontre uma peça (única ou múltipla) por seu ponto relativo)
+	 * @param aponta o ponto onde você procura
+	 * @return uma peça que se encontra sob esse ponto.
+	 * Se houver mais de um nesse ponto
+	 * ele retornará um arbitrário. Se nenhum for encontrado
+	 * retorna nulo.
+	 */
 	public PuzzlePiece findbyPoint(Point point) {
 		for (PuzzlePiece ps : puzzlePieces) {
 			if (ps.isHit(point)) {
@@ -64,6 +82,11 @@ public class PuzzlePieceDisposer implements Storeable {
 				 * this is done to make sure that the
 				 * piece that was found will be painted
 				 * last - never will be in background!
+				 */
+				/* troque a corrente com a última peça
+				 * isso é feito para garantir que o
+				 * peça que foi encontrada será pintada
+				 * último - nunca estará em segundo plano!
 				 */
 				this.puzzlePieces.set(psint, puzzlePieces.get(puzzlePieces
 						.size() - 1));
@@ -88,6 +111,14 @@ public class PuzzlePieceDisposer implements Storeable {
 	 * @throws JigsawPuzzleException 
 	 * 
 	 */
+	/**
+	 * Combina duas peças adicionando a menor à maior. O
+	 * as bordas fornecidas serão fechadas, se o procedimento encontrar mais bordas relacionadas
+	 * para essas peças irá fechá-las também. Retorna a peça resultante
+	 * (a maior peça múltipla ou uma nova peça múltipla se ambos forem solteiros
+	 * @throws JigsawPuzzleException 
+	 * 
+	 */
 	public PuzzlePiece assamblyPieces(PuzzlePiece pp1, Edge pp1e,
 			PuzzlePiece pp2, Edge pp2e) throws JigsawPuzzleException {
 		if (pp1 == null)
@@ -96,19 +127,23 @@ public class PuzzlePieceDisposer implements Storeable {
 			throw new NullPointerException("ps2 null");
 
 		MultiPiece biggerPiece; // this piece will be returned
+								// esta peça será devolvida
 		PuzzlePiece smallerPiece;
 		boolean bothSinglss = false;
 
 		if (pp1.getPieceCount() > pp2.getPieceCount()) {
 			// pp1 bigger
+			// pp1 maior
 			biggerPiece = (MultiPiece) pp1;
 			smallerPiece = pp2;
 		} else if (pp1.getPieceCount() < pp2.getPieceCount()) {
 			// pp2 bigger
+			// pp2 maior
 			biggerPiece = (MultiPiece) pp2;
 			smallerPiece = pp1;
 		} else if (pp2.getPieceCount() == 1) {
 			// both singles
+			// ambos solteiros
 			pp1e.close();
 			pp2e.close();
 			biggerPiece = new MultiPiece((SinglePiece) pp1, (SinglePiece) pp2);
@@ -116,6 +151,7 @@ public class PuzzlePieceDisposer implements Storeable {
 			bothSinglss = true;
 		} else {
 			// both same size but not singles
+			// ambos do mesmo tamanho, mas não solteiros
 			biggerPiece = (MultiPiece) pp1;
 			smallerPiece = pp2;
 		}
@@ -123,6 +159,10 @@ public class PuzzlePieceDisposer implements Storeable {
 		/* find all edges that should be closed, because they are not the two
 		* provided as params but are others that are alos to be closed
 		* be sure never to close NULL type edges because they cannot be closed! 
+		*/
+		/* encontre todas as arestas que devem ser fechadas, porque não são as duas
+		 * fornecido como parâmetros, mas são outros que também devem ser fechados
+		 * certifique-se de nunca fechar as bordas do tipo NULL porque elas não podem ser fechadas!
 		*/
 		if (!bothSinglss) {
 			int maxcount = Integer.MAX_VALUE;
@@ -156,9 +196,11 @@ public class PuzzlePieceDisposer implements Storeable {
 							"could not add, because edges are turned twisted");
 
 				if (openEdgeBiggerPiece.getType() != Edge.Type.NULL) { // never close NULL type edges.
+																	   // nunca feche as bordas do tipo NULL.
 					openEdgeBiggerPiece.close();
 					contrary.close();
 					maxcount--; // another pair assembled
+								// outro par montado
 				}
 				
 			}
@@ -179,6 +221,7 @@ public class PuzzlePieceDisposer implements Storeable {
 
 	public boolean ends() {
 		//Removido ifs
+		// Removido ifs
 		return (this.puzzlePieces.size() == 1);
 	}
 

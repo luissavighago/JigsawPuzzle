@@ -34,6 +34,10 @@ import puzzle.storeage.Storeable;
  * 
  * @author Heinz
  */
+/**
+ * 
+ * @autor Heinz
+ */
 public class Edge implements Storeable, Turnable {
 	
 	private static final Logger logger = Logger.getLogger(Edge.class);
@@ -44,6 +48,12 @@ public class Edge implements Storeable, Turnable {
 	 * @author Heinz
 	 * 
 	 */
+	/**
+	 * os diferentes tipos de bordas
+	 * 
+	 * @autor Heinz
+	 * 
+	 */
 	public static enum Type {
 		TOP, BOTTOM, RIGHT, LEFT, NULL
 	}
@@ -52,11 +62,19 @@ public class Edge implements Storeable, Turnable {
 	 * the type of this edge
 	 * MODEL
 	 */
+	/**
+	 * o tipo desta borda
+	 * MODELO
+	 */
 	private Type type;
 
 	/**
 	 * always two edges share the same number
 	 * MODEL
+	 */
+	/**
+	 * sempre duas arestas compartilham o mesmo número
+	 * MODELO
 	 */
 	private int edgePairNumber;
 
@@ -64,11 +82,19 @@ public class Edge implements Storeable, Turnable {
 	 * the path of this edge
 	 * VIEW
 	 */
+	/**
+	 * o caminho desta borda
+	 * VISUALIZAR
+	 */
 	private Shape edgeShape;
 
 	/**
 	 * the offset for the edges relative to the piece
 	 * VIEW
+	 */
+	/**
+	 * o deslocamento para as arestas em relação à peça
+	 * VISUALIZAR
 	 */
 	private Offset offset;
 
@@ -76,17 +102,29 @@ public class Edge implements Storeable, Turnable {
 	 * the piece for that edge
 	 * MODEL
 	 */
+	/**
+	 * a peça para aquela borda
+	 * MODELO
+	 */
 	private SinglePiece ownerPiece;
 
 	/**
 	 * indicates whether the ownerPiece was set
 	 * MODEL
 	 */
+	/**
+	 * indica se ownerPiece foi definido
+	 * MODELO
+	 */
 	private boolean isOwnerPieceSet = false;
 
 	/**
 	 * indicate where this edge has found his partner or not
 	 * MODEL
+	 */
+	/**
+	 * indique onde esta vantagem encontrou seu parceiro ou não
+	 * MODELO
 	 */
 	private boolean open;
 
@@ -101,6 +139,17 @@ public class Edge implements Storeable, Turnable {
 	 *            der Versatz vom Mittelpunkt des Puzzlestücks zu dem
 	 *            Kantenpunkt
 	 */
+	/**
+	 * cria uma vantagem
+	 * 
+	 * @param modelo
+	 *            OBEN, UNTEN, RECHTS oder LINKS
+	 * @param edgePairNumber
+	 *            o número
+	 * @param versatz
+	 *            der Versatz vom Mittelpunkt des Puzzlestücks zu dem
+	 *            Kantenpunkt
+	 */
 	public Edge(Type type, int edgePairNumber, GeneralPath path) {
 		this.type = type;
 		this.edgePairNumber = edgePairNumber;
@@ -110,6 +159,9 @@ public class Edge implements Storeable, Turnable {
 	
 	/**
 	 * constructor should only be used for restoring
+	 */
+	/**
+	 * construtor deve ser usado apenas para restaurar
 	 */
 	public Edge() {
 	}
@@ -154,12 +206,20 @@ public class Edge implements Storeable, Turnable {
 	 * returns true if this edge is open
 	 * @return true if open, false otherwise
 	 */
+	/**
+	 * retorna verdadeiro se esta borda estiver aberta
+	 * @return true se aberto, false caso contrário
+	 */
 	public boolean isOpen() {
 		return this.open;
 	}
 	
 	/**
 	 * an edge is resolvable if it is open and not of the Type.NULL
+	 * @return
+	 */
+	/**
+	 * uma borda é resolvível se for aberta e não do Type.NULL
 	 * @return
 	 */
 	public boolean isResolvable() {
@@ -171,6 +231,10 @@ public class Edge implements Storeable, Turnable {
 
 	/**
 	 * you can never reopen a closed pair of edges
+	 * @throws JigsawPuzzleException 
+	 */
+	/**
+	 * você nunca pode reabrir um par fechado de arestas
 	 * @throws JigsawPuzzleException 
 	 */
 	public void close() throws JigsawPuzzleException {
@@ -185,6 +249,11 @@ public class Edge implements Storeable, Turnable {
 	 * TODO this seems to be a problem because one uses the ownerPiece to calculate the point
 	 * and on the other hand has something like an offset - not too lucky
 	 */
+	/**
+	 * retorna o ponto médio da forma adicionada ao deslocamento
+	 * TODO isso parece ser um problema porque se usa o ownerPiece para calcular o ponto
+	 * e, por outro lado, tem algo como um deslocamento - não é muito sortudo
+	 */
 	public Point calculatePoint() {
 		Point psp = ownerPiece.getPoint();
 		int x = psp.x + offset.getX();
@@ -194,6 +263,10 @@ public class Edge implements Storeable, Turnable {
 	
 	/**
 	 * moves the whole shape of this piece!
+	 * @param to
+	 */
+	/**
+	 * move toda a forma desta peça!
 	 * @param to
 	 */
 	public void move(Offset to) {
@@ -218,6 +291,8 @@ public class Edge implements Storeable, Turnable {
 		
 		// setting the new offset is kind of correct!
 		// TODO of course this also is a problem! 
+		// definir o novo deslocamento é meio correto!
+		// TODO claro que isso também é um problema!
 		switch (this.type) {
 		case BOTTOM:
 			this.setType(Edge.Type.LEFT);
@@ -246,6 +321,14 @@ public class Edge implements Storeable, Turnable {
 	 * @param edgeChar
 	 *            my edge's char
 	 * @return the contrary edge's number.
+	 * @throws JigsawPuzzleException 
+	 */
+	/**
+	 * obtenha o número da borda contrária.
+	 * 
+	 * @param edgeChar
+	 *            o char da minha borda
+	 * @return o número da borda contrária.
 	 * @throws JigsawPuzzleException 
 	 */
 	public static Type contraryEdgeChar(Type edgeChar) throws JigsawPuzzleException {
@@ -343,6 +426,9 @@ public class Edge implements Storeable, Turnable {
 		
 		/* owner piece is not set but done in single piece!
 		 * so this also applies for isOwnerPieceSet. 
+		 */
+		/* peça do proprietário não é definida, mas feita em uma única peça!
+		 * * então isso também se aplica a isOwnerPieceSet.
 		 */
 		
 		edge.setAttribute("Open", ""+this.open);

@@ -6,11 +6,21 @@ package puzzle.gameevent;
  * 
  * @author Heinz
  */
+/**
+ * Objeto principal para eventos de jogo. declara todos os tipos de eventos e atos
+ * como uma estrutura para eventos.
+ * 
+ * @autor Heinz
+ */
 public class GameEvent {
 
 	/**
 	 * All the possible game events
 	 * @author Heinz
+	 */
+	/**
+	 * Todos os eventos de jogo possíveis
+	 * @autor Heinz
 	 */
 	public static enum State {
 		START_GAME, LOAD_GAME,

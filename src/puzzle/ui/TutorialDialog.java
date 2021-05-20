@@ -23,6 +23,7 @@ public class TutorialDialog extends JDialog {
 	private final Dimension tutorialPanelSize = new Dimension(504, 425);
 
 	// parts that are in the design
+	// partes que estão no design
 
 	private TutorialPanel tutorialPanel;
 
@@ -49,6 +50,7 @@ public class TutorialDialog extends JDialog {
 			this.tutorialPanel.loadImage(image);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
+			// TODO bloco de captura gerado automaticamente
 			e.printStackTrace();
 		}
 		
@@ -95,6 +97,11 @@ public class TutorialDialog extends JDialog {
 		 * 
 		 * @param img
 		 */
+		/**
+		 * carregue esta imagem (com o tamanho certo) no centro da visualização
+		 * 
+		 * @param img
+		 */
 		void loadImage(Image img) {
 			this.label.setIcon(new ImageIcon(img));
 			// this.setSize(previewPanelSize);
@@ -105,6 +112,10 @@ public class TutorialDialog extends JDialog {
 		/**
 		 * unloads this image and resets the noImagePresent String from the
 		 * current language defaults
+		 */
+		/**
+		 * descarrega esta imagem e redefine a string noImagePresent do
+		 * padrões de idioma atuais
 		 */
 		void unloadImage() {
 			this.label.setText(PuzzleProperties.getLocalized("noImagePresent"));

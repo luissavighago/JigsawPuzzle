@@ -22,12 +22,21 @@ import puzzle.gameevent.GameEvent;
  * @author Heinz
  *
  */
+/**
+ * uma classe que é capaz de reproduzir sons em um
+ * forma assíncrona (usa um novo thread para jogar)
+ * @autor Heinz
+ *
+ */
 public class SoundPlayer implements AbstractSoundPlayer {
 
 	private static final Logger logger = Logger.getLogger(SoundPlayer.class); 
 	
 	/**
 	 * paths to all sound ressources
+	 */
+	/**
+	 * caminhos para todos os recursos sonoros
 	 */
 	private String[] waves = { "/audio/applause.wav", "/audio/winner.wav",
 			"/audio/win.wav", "/audio/pop.wav", "/audio/clickstop.wav",
@@ -36,10 +45,16 @@ public class SoundPlayer implements AbstractSoundPlayer {
 	/**
 	 * a separate thread for a player
 	 */
+	/**
+	 * um tópico separado para um jogador
+	 */
 	private ThreadPlayer[] player;
 
 	/**
 	 * random
+	 */
+	/**
+	 * aleatório
 	 */
 	private Random rng;
 
@@ -48,6 +63,7 @@ public class SoundPlayer implements AbstractSoundPlayer {
 		this.rng = new Random();
 
 		// init all audio files
+		// init todos os arquivos de áudio
 		for (int i = 0; i < this.player.length; i++) {
 			this.player[i] = new ThreadPlayer(getClass().getResource(
 					this.waves[i]));
@@ -79,6 +95,10 @@ public class SoundPlayer implements AbstractSoundPlayer {
 	/**
 	 * the thread player
 	 * @author Heinz
+	 */
+	/**
+	 * o jogador do tópico
+	 * @autor Heinz
 	 */
 	static class ThreadPlayer extends Thread {
 

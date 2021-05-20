@@ -12,6 +12,12 @@ import puzzle.storeage.JigsawPuzzleException;
  * @author Heinz
  *
  */
+/**
+ * Este produtor produz "sem" bordas, o que significa que todas as bordas são linhas simples entre
+ * dois pontos. Isso resultará em peças quadráticas no jogo.
+ * @autor Heinz
+ *
+ */
 public class FlatEdgeProducer extends AbstractEdgeProducer {
 
 	@Override

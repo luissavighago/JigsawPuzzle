@@ -17,36 +17,65 @@ import puzzle.storeage.JigsawPuzzleException;
  * @author Heinz
  * 
  */
+/**
+ * interface para todos os produtores de bordas. O jeito que eles vão é a primeira chamada
+ * construtor para construir um novo objeto, do que inicializar o objeto com alguns parâmetros
+ * que são predefinidos e não seriam alterados no processo, chame posteriormente
+ * produza com a freqüência necessária para produzir várias arestas que se adaptem ao seu
+ * predefinições feitas através do método init. Por fim, chame o método getShapes
+ * este método fornecerá as arestas produzidas como um par contrário
+ * 
+ * @autor Heinz
+ * 
+ */
 
 public abstract class AbstractEdgeProducer {
 	
 	/**
 	 * a random number generator - the key thing for production
 	 */
+	/**
+	 * um gerador de números aleatórios - a chave para a produção
+	 */
 	protected static final Random rand = new Random();
 	
 	/**
 	 * the points for the actual shape
+	 */
+	/**
+	 * os pontos para a forma real
 	 */
 	protected Point[] actualPoints;
 
 	/**
 	 * if this is a male one = true, otherwise if female on = false
 	 */
+	/**
+	 * se for masculino = verdadeiro, caso contrário, se for feminino = falso
+	 */
 	protected boolean isBubble;
 
 	/**
 	 * the two generated shapes are saved here
+	 */
+	/**
+	 * as duas formas geradas são salvas aqui
 	 */
 	protected Shape[] twoShapes;
 	
 	/**
 	 * length of a side
 	 */
+	/**
+	 * comprimento de um lado
+	 */
 	protected int sideLength;
 
 	/**
 	 * this should init this produces with the predifined side length
+	 */
+	/**
+	 * isto deve iniciar e produzir com o comprimento de lado predefinido
 	 */
 	public void init(int sideLength) {
 		this.sideLength = sideLength;
@@ -57,11 +86,19 @@ public abstract class AbstractEdgeProducer {
 	/**
 	 * delegation of init method if additional initiation stuff has to be done
 	 */
+	/**
+	 * delegação do método init se algo de iniciação adicional tiver que ser feito
+	 */
 	protected abstract void _init();
 
 	/**
 	 * this should produce a random edge, might be called as often as needed to
 	 * produce new edges from given type (type given by init)
+	 * 
+	 */
+	/**
+	 * isso deve produzir uma borda aleatória, pode ser chamado tão frequentemente quanto necessário para
+	 * produz novas arestas de determinado tipo (tipo fornecido por init)
 	 * 
 	 */
 	public abstract void produce() throws JigsawPuzzleException;
@@ -72,6 +109,12 @@ public abstract class AbstractEdgeProducer {
 	 * 
 	 * @return a two fielded array containing the shapes
 	 */
+	/**
+	 * recupera as duas formas geradas por este produtor por meio do produto
+	 * procedimento, nenhum pedido especial o primeiro pode ser um tipo masculino ou feminino
+	 * 
+	 * @return um array de dois campos contendo as formas
+	 */
 	public Shape[] getBothShapes() {
 		return this.twoShapes;
 	}
@@ -79,6 +122,10 @@ public abstract class AbstractEdgeProducer {
 	/**
 	 * this method recalculates the points of the actualPoints list
 	 * to get a female piece.
+	 */
+	/**
+	 * este método recalcula os pontos da lista de pontos reais
+	 * para obter uma peça feminina.
 	 */
 	protected void recalculate() {
 		if (!this.isBubble) {
