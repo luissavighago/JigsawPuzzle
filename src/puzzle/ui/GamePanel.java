@@ -34,11 +34,16 @@ import puzzle.storeage.JigsawPuzzleException;
  * 
  * @author Heinz
  */
+/**
+ * 
+ * @autor Heinz
+ */
 public class GamePanel extends JPanel implements GameEventListener {
 	
 	private Logger logger = Logger.getLogger(GamePanel.class);
 	
 	// offscreenImage from the double buffer
+	// offscreenImage do buffer duplo
 	private Image offscreenImage;
 	
 	private final PuzzleInputListener inputListener;
@@ -50,6 +55,7 @@ public class GamePanel extends JPanel implements GameEventListener {
 	private final GameCommander gC = GameCommander.getInstance();
 	
 	/** Creates a new instance of GamePanel */
+	/** Cria uma nova instância de GamePanel */
 	public GamePanel() {
 		this.inputListener = new PuzzleInputListener();
 		this.addMouseListener(this.inputListener);
@@ -60,6 +66,9 @@ public class GamePanel extends JPanel implements GameEventListener {
 
 	/**
 	 * paints the offscreen to screen buffer
+	 */
+	/**
+	 * pinta o buffer fora da tela para a tela
 	 */
 	/*
 	public void paint(Graphics g) {
@@ -95,12 +104,20 @@ public class GamePanel extends JPanel implements GameEventListener {
 	 * that piece again.
 	 * @param actPs the piece to delete
 	 */
+	/**
+	 * exclui uma peça específica da área de desenho.
+	 * ele faz isso simplesmente excluindo a área e
+	 * desenho de todas as peças que estão na área de
+	 * aquela peça novamente.
+	 * @param atua na peça a ser excluída
+	 */
 	private void deleteFromArea(PuzzlePiece actPs) throws JigsawPuzzleException {
 		Rectangle clippingArea = actPs.getBoundingRectangle();
 
 		Graphics2D offscreenPainter = (Graphics2D) offscreenImage.getGraphics()
 				.create();
 		// clear the area first
+		// limpe a área primeiro
 		offscreenPainter.setClip(clippingArea);
 		offscreenPainter.setColor(PuzzleProperties.BACKGROUND_COLOR);
 		offscreenPainter.fill(clippingArea);
@@ -109,6 +126,7 @@ public class GamePanel extends JPanel implements GameEventListener {
 			offscreenPainter.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
 		// draw 'em now
+		// desenhe-os agora
 		for (PuzzlePiece ps : GameCommander.getInstance().getPieceDisposer().getPuzzlePieces()) {
 			if (ps.isWithinRectangle(clippingArea) && ps != actPs) {
 				ps.renderInClip(offscreenPainter);
@@ -122,6 +140,10 @@ public class GamePanel extends JPanel implements GameEventListener {
 	/**
 	 * draws exactly only that piece into its drawable area
 	 * @param piece the piece to draw
+	 */
+	/**
+	 * desenha exatamente apenas aquela peça em sua área de desenho
+	 * @param peça a peça a desenhar
 	 */
 	private void drawToArea(PuzzlePiece piece) throws JigsawPuzzleException {
 		Rectangle clippingArea = piece.getBoundingRectangle();
@@ -137,29 +159,38 @@ public class GamePanel extends JPanel implements GameEventListener {
 	 * called to create new image and render it within it's given coordinates.
 	 * @throws JigsawPuzzleException 
 	 */
+	/**
+	 * chamado para criar uma nova imagem e renderizá-la dentro de suas coordenadas fornecidas.
+	 * @throws JigsawPuzzleException 
+	 */
 	public void reRender() throws JigsawPuzzleException {
 		Graphics2D dbg;
 
 		boolean deleteImageContent = false;		
 
 		// do this only once, or if the image has changed size!
+		// faça isso apenas uma vez, ou se o tamanho da imagem mudou!
 		if ((offscreenImage == null) || (!isSameSize(offscreenImage, this.getPreferredSize()))) {
 			GraphicsConfiguration gc = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[0].getDefaultConfiguration();			
 			offscreenImage = gc.createCompatibleImage(this.getSize().width, this.getSize().height);
 			deleteImageContent = true;
 		} 
 		// getting graphics context.
+		// obtendo contexto gráfico.
 		dbg = (Graphics2D) offscreenImage.getGraphics();
 		
 		if (deleteImageContent) { // do that if only renewing!
+								  // faça isso apenas renovando!
 			dbg.clearRect(0, 0, this.offscreenImage.getWidth(null), this.offscreenImage.getHeight(null));
 		}
 
 		// paint background
+		// pintar fundo
 		dbg.setColor(PuzzleProperties.BACKGROUND_COLOR);
 		dbg.fillRect(0, 0, this.getSize().width, this.getSize().height);
 
 		// fill the pic with the pieces
+		// preencha a foto com as peças
 		List<PuzzlePiece> Puzzlestuecke = GameCommander.getInstance().getPieceDisposer()
 				.getPuzzlePieces();
 		for (PuzzlePiece ps : Puzzlestuecke) {
@@ -175,6 +206,12 @@ public class GamePanel extends JPanel implements GameEventListener {
 	 * @param d
 	 * @return
 	 */
+	/**
+	 * descobre se a imagem tem o mesmo tamanho que a dimensão
+	 * @param i
+	 * @param d
+	 * @return
+	 */
 	private boolean isSameSize(Image i, Dimension d) {		
 		int imageWidth = i.getWidth(null);
 		int imageHeight = i.getHeight(null);
@@ -183,6 +220,7 @@ public class GamePanel extends JPanel implements GameEventListener {
 		int dimHeight = d.height;
 		
 		//remoção de ifs
+		// remoção de ifs
 		return ((imageWidth == dimWidth) && (imageHeight == dimHeight));
 	}
 

@@ -32,9 +32,14 @@ public class PreviewDialog extends JDialog {
 	 * load this image (having right size) into preview
 	 * @param img
 	 */
+	/**
+	 * carregue esta imagem (com o tamanho certo) na visualização
+	 * @param img
+	 */
 	public void loadImage(BufferedImage img) {
 		this.img = img;
 		// TODO find out where to find the "real" size of the decoration and use
+		// TODO descubra onde encontrar o tamanho "real" da decoração e use
 		Dimension size = new Dimension(this.img.getWidth(null) + 1, this.img
 				.getHeight(null) + 24);
 		
@@ -47,6 +52,9 @@ public class PreviewDialog extends JDialog {
 	
 	/**
 	 * unload the image
+	 */
+	/**
+	 * descarregar a imagem
 	 */
 	public void unloadImage() {
 		this.img = null;

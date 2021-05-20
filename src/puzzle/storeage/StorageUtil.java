@@ -43,6 +43,14 @@ public class StorageUtil {
 	 * @param nodeName
 	 * @return Node if one was found according to the name or null otherwise
 	 */
+	/**
+	 * encontre um nó direto sob o nó fornecido com o nome dado em
+	 * nodeName
+	 * 
+	 * @param parent
+	 * @param nodeName
+	 * @return Nó se um foi encontrado de acordo com o nome ou nulo caso contrário
+	 */
 	public static Node findDirectChildNode(Node parent, String nodeName) {
 
 		NodeList nodeList = parent.getChildNodes();
@@ -67,8 +75,20 @@ public class StorageUtil {
 	 * @param data
 	 *            the data to be stored
 	 */
+	/**
+	 * usado para armazenar uma porção especial de dados binários representados como byte [] para um
+	 * determinado elemento. Use restoreBinaryData como a reversão
+	 * 
+	 * @param e
+	 *            para o qual armazenar para
+	 * @param nodeName
+	 *            o nó recém-criado sob o qual os dados devem ser armazenados
+	 * @param data
+	 *            os dados a serem armazenados
+	 */
 	public static void storeBinaryData(Node e, String nodeName, byte[] data) {
 		// encode the byte stream in base64
+		// codifica o fluxo de bytes em base64
 		if (base64Enc == null) {
 			base64Enc = new BASE64Encoder();
 		}
@@ -77,12 +97,17 @@ public class StorageUtil {
 		Document doc = e.getOwnerDocument();
 
 		// form an outer node with the requested name
+		// forma um nó externo com o nome solicitado
 		Node outerNode = doc.createElement(nodeName);
 		// init a anonymous CDATA section
+		// init uma seção CDATA anônima
 		CDATASection dataNode = doc.createCDATASection("");
 		// put the data into the section
+		// coloque os dados na seção
 		dataNode.setNodeValue(b64EncodedData);
 		// append the datanode as child to the outer node and the outer node to
+		// e
+		// anexa o datanode como filho ao nó externo e o nó externo ao
 		// e
 		outerNode.appendChild(dataNode);
 		e.appendChild(outerNode);
@@ -100,14 +125,29 @@ public class StorageUtil {
 	 * @throws LoadGameException 
 	 * @throws IOException
 	 */
+	/**
+	 * Restaura uma parte dos bytes de um determinado elemento e do nodeName fornecido.
+	 * Use storeBinaryData como método de reversão
+	 * 
+	 * @param e
+	 *            o elemento a partir do qual restaurar
+	 * @param nodeName
+	 *            o nome sob o qual os dados foram armazenados
+	 * @return os dados que foram armazenados
+	 * @throws LoadGameException 
+	 * @throws IOException
+	 */
 	public static byte[] restoreBinaryData(Node e, String nodeName) throws LoadGameException {
 		// get the outer node
+		// obtém o nó externo
 		Node outerNode = findDirectChildNode(e, nodeName);
 		// get the CDATA child section
+		// obter a seção filho CDATA
 		CDATASection dataNode = (CDATASection) outerNode.getChildNodes()
 				.item(0);
 
 		// decode from base 64
+		// decodifica da base 64
 		if (base64Dec == null) {
 			base64Dec = new BASE64Decoder();
 		}
@@ -141,9 +181,26 @@ public class StorageUtil {
 	 * @throws SaveGameException 
 	 * @throws IOException
 	 */
+	/**
+	 * armazena um objeto serializável nesse nó, use
+	 * restoreSerialisableObject como função reversa. Usa internamente
+	 * função storeBinaryData
+	 * 
+	 * @param e
+	 *            o nó sob o qual armazenar
+	 * @param nodeName
+	 *            nome do nó que será criado em e para realizar o
+	 * 			  dados do objeto serializável
+	 * @param serialObj
+	 *            o objeto para armazenar
+	 * @throws SaveGameException 
+	 * @throws IOException
+	 */
 	public static void storeSerialisableObject(Node e, String nodeName,
 			Object serialObj) throws SaveGameException {
 		// create byte array stream to write to and surround by a
+		// objectoutputstream
+		// cria fluxo de matriz de bytes para escrever e circundar por um
 		// objectoutputstream
 		ByteArrayOutputStream byteArrayStream = new ByteArrayOutputStream();
 		ObjectOutputStream oos;
@@ -174,6 +231,19 @@ public class StorageUtil {
 	 * @throws LoadGameException 
 	 * @throws IOException
 	 */
+	/**
+	 * restaura um objeto serializável que foi salvo com a função
+	 * storeSerialisableObject.
+	 * 
+	 * @param e
+	 *            o nó sob o qual estão os dados que devem ser restaurados
+	 * @param nodeName
+	 *            nome do nó sob o qual o objeto serializável foi
+	 *            armazenado
+	 * @return o objeto que foi salvo
+	 * @throws LoadGameException 
+	 * @throws IOException
+	 */
 	public static Object restoreSerialisableObject(Node e, String nodeName) throws LoadGameException {
 		try {
 			byte[] data = restoreBinaryData(e, nodeName);
@@ -197,6 +267,12 @@ public class StorageUtil {
 	 * @return the newly created document
 	 * @throws ParserConfigurationException
 	 */
+	/**
+	 * cria um documento DOM vazio
+	 * 
+	 * @return o documento recém-criado
+	 * @throws ParserConfigurationException
+	 */
 	public static Document createDOMDocument() throws SaveGameException {
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder;
@@ -217,6 +293,15 @@ public class StorageUtil {
 	 *            the document to save
 	 * @param filename
 	 *            the filename
+	 * @throws SaveGameException
+	 */
+	/**
+	 * salva o documento fornecido em um arquivo com o nome fornecido
+	 * 
+	 * @param doc
+	 *            o documento para salvar
+	 * @param filename
+	 *            o nome do arquivo
 	 * @throws SaveGameException
 	 */
 	public static void saveAsXML(Document doc, File file)

@@ -30,11 +30,17 @@ import puzzle.ui.PuzzleImage;
  * 
  * @author Heinz
  */
+/**
+ * Salva as informações relevantes para o jogo real
+ * 
+ * @autor Heinz
+ */
 public class GamePreferences implements Storeable {
 	
 	private static final Logger logger = Logger.getLogger(GamePreferences.class);
 	
 	// START static OPTIONS
+	// INICIAR OPÇÕES estáticas
 	
 	private AbstractEdgeProducer edgeProducer;
 	
@@ -57,13 +63,16 @@ public class GamePreferences implements Storeable {
 	private boolean antiAliasing;
 
 	// END static OPTIONS
+	// TERMINAR OPÇÕES estáticas
 
 	// DYNAMIC options
+	// Opções DINÂMICAS
 	private boolean showOutline;
 	private boolean showShadow;
 	private boolean highlight;
 	private boolean sound;
 	// DYNAMIC options
+	// Opções DINÂMICAS
 	
 	public AbstractEdgeProducer getEdgeProducer() {
 		return edgeProducer;
@@ -71,6 +80,9 @@ public class GamePreferences implements Storeable {
 
 	/*
 	 * for internal restore usage only
+	 */
+	/*
+	 * para uso de restauração interna apenas
 	 */
 	public GamePreferences() {
 		
@@ -173,6 +185,9 @@ public class GamePreferences implements Storeable {
 	/**
 	 * this calculates the initial pieces field
 	 */
+	/**
+	 * isso calcula o campo de peças iniciais
+	 */
 	public void calcInitialPieces() {
 		this.initialPieces = this.rows * this.columns;
 	}
@@ -182,6 +197,12 @@ public class GamePreferences implements Storeable {
 	 * the columns and rows from the 
 	 * knowledge of the image size and sideLength
 	 * size as well as the stroke of pieces.
+	 */
+	/**
+	 * isso calcula atributos deduzidos, por exemplo
+	 * as colunas e linhas do 
+	 * conhecimento do tamanho da imagem e comprimento lateral
+	 * tamanho, bem como o traço das peças.
 	 */
 	public void calcDeducedAttributes() {
 		if (this.image == null) {
@@ -249,6 +270,7 @@ public class GamePreferences implements Storeable {
 		preferences.setAttribute("showShadow", ""+this.showShadow);
 		preferences.setAttribute("sound", ""+this.sound);
 		// PuzzleImage image store to preferences
+		// PuzzleImage armazena imagens para preferências
 		this.image.store(preferences);
 		current.appendChild(preferences);
 	}

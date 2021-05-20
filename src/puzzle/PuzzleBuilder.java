@@ -24,6 +24,9 @@ import puzzle.ui.GameMainWindow;
 /**
  * @author Heinz
  */
+/**
+ * @autor Heinz
+ */
 public class PuzzleBuilder {
 
 	private PuzzlePiece[][] pieceArray;
@@ -31,6 +34,10 @@ public class PuzzleBuilder {
 	/**
 	 * this variable increases every time a new piece is created until the
 	 * maximum index is reached
+	 */
+	/**
+	 * esta variável aumenta cada vez que uma nova peça é criada até que o 
+	 * índice máximo seja alcançado
 	 */
 	private int edgeNumberIndex = 0;
 
@@ -56,6 +63,7 @@ public class PuzzleBuilder {
 			for (int rowIndex = 0; rowIndex < rows; rowIndex++) { // rows
 
 				// left edge:
+				// borda esquerda:
 				if (columnIndex == 0)
 					edgeArray[columnIndex][rowIndex][3] = null; // links = 3
 				else {
@@ -69,6 +77,7 @@ public class PuzzleBuilder {
 				}
 
 				// top edge:
+				// borda superior:
 				if (rowIndex == 0)
 					edgeArray[columnIndex][rowIndex][0] = null; // oben = 0
 				else {
@@ -82,6 +91,7 @@ public class PuzzleBuilder {
 				}
 
 				// right edge:
+				// borda direita:
 				if (columnIndex == columns - 1)
 					edgeArray[columnIndex][rowIndex][2] = null;
 				else {
@@ -95,6 +105,7 @@ public class PuzzleBuilder {
 				}
 
 				// bottom edge:
+				// borda inferior:
 				if (rowIndex == rows - 1)
 					edgeArray[columnIndex][rowIndex][1] = null;
 				else {
@@ -147,18 +158,24 @@ public class PuzzleBuilder {
 		Point last = startPointList.get(startPointList.size() - 1);
 
 		// some boundaries
+		// alguns limites
 		int xbound = last.x + 400;
 		int ybound = last.y + 200;
 
 		GameMainWindow.getInstance().setBoundaries(xbound, ybound);
 
 		// the above thing no =============================
+		// a coisa acima não =============================
 		this.isStartPointListInit = true;
 	}
 
 	/**
 	 * if this is a game where turning pieces is allowed, this procedure will
 	 * randomly turn the pieces
+	 */
+	/**
+	 * se este é um jogo onde é permitido virar as peças, este procedimento irá 
+	 * virar as peças aleatoriamente
 	 */
 	private void turnRandom() throws JigsawPuzzleException {
 		for (PuzzlePiece[] PSA : pieceArray) {

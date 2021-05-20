@@ -21,11 +21,18 @@ public class ShapeUtil {
 	 * @return
 	 * @throws JigsawPuzzleException
 	 */
+	/**
+	 * crie uma versão invertida desta forma
+	 * @param s
+	 * @return
+	 * @throws JigsawPuzzleException
+	 */
 	public static Shape createReversed(Shape s) throws JigsawPuzzleException {
 		
 		logger.debug("attempting to reverse a shape");
 		
 		// defined innerclass
+		// definida classe interna
 		class PathSegment {
 			final double[] pts;
 			final int type;
@@ -84,17 +91,22 @@ public class ShapeUtil {
 					gp.moveTo(ps.pts[0], ps.pts[1]);
 					continue;
 				}// else go on to SEG_MOVETO
+				 // senão vá para SEG_MOVETO
 			case PathIterator.SEG_MOVETO:
 				gp.lineTo(ps.pts[0], ps.pts[1]);
 				break;
 			case PathIterator.SEG_QUADTO:
 				// 4 means 2 points
+				// 4 significa 2 pontos
 				gp.quadTo(ps.pts[2], ps.pts[3], ps.pts[0], ps.pts[1]);
 				// TODO this leads to squared bubbles somehow
+				// TODO isso leva a bolhas quadradas de alguma forma
 				break;
 			case PathIterator.SEG_CUBICTO:
 				// 6 means 3 points
 				// TODO this is unkown behaviour because it's not used!
+				// 6 significa 3 pontos
+				// TODO este é um comportamento desconhecido porque não é usado!
 				gp.curveTo(ps.pts[4], ps.pts[5], ps.pts[2], ps.pts[3], ps.pts[0], ps.pts[1]);
 				break;
 			default:
@@ -110,6 +122,14 @@ public class ShapeUtil {
 	 * 
 	 * @param org
 	 * @param amount
+	 * @return
+	 */
+	/**
+	 * cria uma cópia da matriz dupla, este método copia tantos valores quanto
+	 * quantidade diz.
+	 * 
+	 * @param org
+	 * @param resultar
 	 * @return
 	 */
 	protected static double[] copy(double[] org, int amount) {

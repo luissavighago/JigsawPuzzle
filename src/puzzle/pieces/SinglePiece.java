@@ -45,6 +45,10 @@ import puzzle.storeage.StorageUtil;
  * 
  * @author Heinz
  */
+/**
+ * 
+ * @autor Heinz
+ */
 public class SinglePiece extends PuzzlePiece {
 
 	private static final Logger logger = Logger.getLogger(SinglePiece.class);
@@ -54,6 +58,7 @@ public class SinglePiece extends PuzzlePiece {
 	private Point center;
 
 	// can be serialzed using the image and recalculateTexture
+	// pode ser serializado usando a imagem e recalculateTexture
 	private TexturePaint pieceContent;
 
 	private Edge topEdge;
@@ -112,6 +117,9 @@ public class SinglePiece extends PuzzlePiece {
 	/**
 	 * constructor should only be used for restoring
 	 */
+	/**
+	 * construtor deve ser usado apenas para restaurar
+	 */
 	public SinglePiece() {
 
 	}
@@ -130,6 +138,12 @@ public class SinglePiece extends PuzzlePiece {
 	 * @throws JigsawPuzzleException
 	 * 
 	 */
+	/**
+	 * inits as bordas definindo seus deslocamentos, definindo o proprietário
+	 * 
+	 * @throws JigsawPuzzleException
+	 * 
+	 */
 	private void initEdges() throws JigsawPuzzleException {
 		final int sideLength = GameCommander.getInstance().getPreferences()
 				.getSideLength();
@@ -139,8 +153,13 @@ public class SinglePiece extends PuzzlePiece {
 		 * initializes the four edges to fit together in a generalpath of this
 		 * piece
 		 */
+		/*
+		 * inicializa as quatro arestas para se encaixarem em um caminho geral deste
+		 * Artigo
+		 */
 
 		// start topEdge
+		// iniciar topEdge
 		if (this.topEdge == null) {
 			GeneralPath path = new GeneralPath();
 			path.moveTo(-(sideLength / 2), 0);
@@ -150,9 +169,11 @@ public class SinglePiece extends PuzzlePiece {
 		topEdge.setOwnerPiece(this);
 		relativeToCenter = new Offset(0, -(sideLength / 2));
 		topEdge.setOffset(relativeToCenter); // means that I have the absolute value in the shape of the edge!
+											 // significa que tenho o valor absoluto na forma da borda!
 		topEdge.move(new Offset(this.center.x + relativeToCenter.getX(),
 				this.center.y + relativeToCenter.getY()));
 		// end topEdge
+		// fim do topoEdge
 
 		// start rightEdge
 		if (this.rightEdge == null) {
@@ -216,6 +237,7 @@ public class SinglePiece extends PuzzlePiece {
 		g2d.fill(this.puzzleShape);
 		
 		// use this code to enable debugging of edges!
+		// use este código para habilitar a depuração de bordas!
 		/*
 		g2d.setColor(Color.orange);
 		g2d.drawRect(this.center.x-1, this.center.y-1, 2, 2);
@@ -246,6 +268,10 @@ public class SinglePiece extends PuzzlePiece {
 	 * recalculate the texture under this piece, has to be called if the piece
 	 * should be moved.
 	 */
+	/**
+	 * recalcular a textura sob esta peça, deve ser chamada se a peça
+	 * deve ser movido.
+	 */
 	private void recalculateTexture() {
 		Rectangle r = new Rectangle(this.center.x - this.image.getWidth() / 2,
 				this.center.y - this.image.getHeight() / 2, this.image
@@ -271,9 +297,11 @@ public class SinglePiece extends PuzzlePiece {
 		
 		for (Edge e : this.edges) {
 			e.move(to); // does a coordinates transformation for every edge!
+						// faz uma transformação de coordenadas para cada aresta!
 		}
 
 		this.puzzleShape = af.createTransformedShape(this.puzzleShape); // again you transform the whole shape once
+																		// novamente você transforma toda a forma uma vez
 		this.recalculateTexture();
 	}
 
@@ -298,27 +326,35 @@ public class SinglePiece extends PuzzlePiece {
 	/**
 	 * return a copy of the center point.
 	 */
+	/**
+	 * retornar uma cópia do ponto central.
+	 */
 	public Point getPoint() {
 		//Inline Variable - Maynara
+		// Variável embutida - Maynara
 		return new Point(center.x, center.y);
 	}
 
 	@Override
 	public void turnDegrees(Point turnPoint, int degree) {
 		// TODO problem this only supports turning 90 degrees!
+		// TODO problema, isso só suporta girar 90 graus!
 		logger.debug("rotating singlePiece");
 
 		AffineTransform turner = AffineTransform.getRotateInstance(Math
 				.toRadians(degree), turnPoint.x, turnPoint.y);
 		this.puzzleShape = turner.createTransformedShape(this.puzzleShape); // has to be recalulated using buildShape()
+																			// tem que ser recalulado usando buildShape ()
 
 		// TODO in these methods we also have problems with the type of an edge
+		// TODO nestes métodos também temos problemas com o tipo de uma aresta
 		this.topEdge.turnDegrees(turnPoint, degree);
 		this.leftEdge.turnDegrees(turnPoint, degree);
 		this.bottomEdge.turnDegrees(turnPoint, degree);
 		this.rightEdge.turnDegrees(turnPoint, degree);
 		
 		// TODO that actually is the problem because you don't know how to set these values!
+		// TODO esse é realmente o problema porque você não sabe como definir esses valores!
 		Edge temp = this.topEdge;
 		topEdge = leftEdge;
 		leftEdge = bottomEdge;
@@ -326,6 +362,7 @@ public class SinglePiece extends PuzzlePiece {
 		rightEdge = temp;
 
 		// recalculate new center point
+		// recalcular novo ponto central
 		if (turnPoint != this.center) {
 			Point2D newCenter2D = turner.transform(this.center, null);
 			Point newCenter = new Point((int) newCenter2D.getX(),
@@ -334,15 +371,18 @@ public class SinglePiece extends PuzzlePiece {
 		}
 
 		// turn the picture also
+		// vire a imagem também
 		rotateImage(degree);
 		
 		// recalculate because the image points may have been changed
+		// recalcular porque os pontos da imagem podem ter sido alterados
 		this.recalculateTexture();
 	}
 
 	@Override
 	public boolean isWithinRectangle(Rectangle rect) {
 		//Removido Ifs que não são necessários
+		// Removido Ifs que não são descontados
 		Rectangle myrect = this.getBoundingRectangle();
 		return (rect.contains(myrect) || rect.intersects(myrect));
 	}
@@ -360,10 +400,13 @@ public class SinglePiece extends PuzzlePiece {
 		int oldHeight = this.image.getHeight();
 		// a new image with widthNew = heightOld, heightNew = widthNew, and same
 		// color type
+		// uma nova imagem com widthNew = heightOld, heightNew = widthNew e mesmo
+		// tipo de cor
 		BufferedImage newImage = new BufferedImage(oldHeight, oldWidth,
 				this.image.getType());
 
 		// rotation through center point of new image
+		// rotação através do ponto central da nova imagem
 		AffineTransform at = AffineTransform.getRotateInstance(Math
 				.toRadians(degrees), (newImage.getWidth() / 2), (newImage
 				.getHeight() / 2));
@@ -391,11 +434,13 @@ public class SinglePiece extends PuzzlePiece {
 				"SinglePiece");
 
 		// recreate the image
+		// recriar a imagem
 		byte[] data = StorageUtil.restoreBinaryData(singlePieceNode,
 				"PieceImage");
 		ByteArrayInputStream imageByteStream = new ByteArrayInputStream(data);
 		try {
 			// done creating the image
+			// terminou de criar a imagem
 			this.image = ImageIO.read(imageByteStream);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -403,6 +448,7 @@ public class SinglePiece extends PuzzlePiece {
 		}
 
 		// load the center
+		// carrega o centro
 		NamedNodeMap nnm = singlePieceNode.getAttributes();
 		Node item;
 		item = nnm.getNamedItem("centerX");
@@ -411,8 +457,10 @@ public class SinglePiece extends PuzzlePiece {
 		int centerY = Integer.parseInt(item.getNodeValue());
 		this.center = new Point(centerX, centerY);
 		// got the center
+		// tem o centro
 
 		// get the edges
+		// obter as bordas
 		Node topE = StorageUtil.findDirectChildNode(singlePieceNode, "TopEdge");
 		if (topE.hasChildNodes()) {
 			this.topEdge = new Edge();
@@ -461,6 +509,7 @@ public class SinglePiece extends PuzzlePiece {
 		}
 
 		// finally fill the edgelist and the texture Paint
+		// finalmente preencha o edgelist e a textura Paint
 		try {
 			buildShape();
 		} catch (JigsawPuzzleException e) {
@@ -477,6 +526,7 @@ public class SinglePiece extends PuzzlePiece {
 
 		ByteArrayOutputStream imageByteStream = new ByteArrayOutputStream();
 		// write the image in the format to the byte stream array
+		// escreve a imagem no formato para a matriz de fluxo de bytes
 		try {
 			ImageIO.write(this.image, "png", imageByteStream);
 		} catch (IOException e) {
@@ -486,10 +536,12 @@ public class SinglePiece extends PuzzlePiece {
 		StorageUtil.storeBinaryData(singlePiece, "PieceImage", imageByteStream
 				.toByteArray());
 		// center
+		// centro
 		singlePiece.setAttribute("centerX", "" + this.center.x);
 		singlePiece.setAttribute("centerY", "" + this.center.y);
 
 		// topEdge
+		// borda superior
 		Element topE = doc.createElement("TopEdge");
 		if (topEdge != null) {
 			topEdge.store(topE);
@@ -497,6 +549,7 @@ public class SinglePiece extends PuzzlePiece {
 		singlePiece.appendChild(topE);
 
 		// bottomEdge
+		// borda inferior
 		Element bottomE = doc.createElement("BottomEdge");
 		if (bottomEdge != null) {
 			bottomEdge.store(bottomE);
@@ -504,6 +557,7 @@ public class SinglePiece extends PuzzlePiece {
 		singlePiece.appendChild(bottomE);
 
 		// rightEdge
+		// borda direita
 		Element rightE = doc.createElement("RightEdge");
 		if (rightEdge != null) {
 			rightEdge.store(rightE);
@@ -511,6 +565,7 @@ public class SinglePiece extends PuzzlePiece {
 		singlePiece.appendChild(rightE);
 
 		// leftEdge
+		// borda esquerda
 		Element leftE = doc.createElement("LeftEdge");
 		if (leftEdge != null) {
 			leftEdge.store(leftE);

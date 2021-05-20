@@ -17,15 +17,24 @@ public class StandardEdgeProducer extends AbstractEdgeProducer {
 	/**
 	 * the gap of the basic line where the neck will be entered later
 	 */
+	/**
+	 * a lacuna da linha básica onde o pescoço será inserido mais tarde
+	 */
 	private int neckGap;
 
 	/**
 	 * this is the minimum space that should be left before any point of the bubble should begin.
 	 */
+	/**
+	 * este é o espaço mínimo que deve ser deixado antes que qualquer ponto da bolha comece.
+	 */
 	private int minimumSpaceFromVertex;
 
 	/**
 	 * constructor for serialisation loading
+	 */
+	/**
+	 * construtor para carregamento de serialização
 	 */
 	public StandardEdgeProducer() {
 	}
@@ -39,15 +48,18 @@ public class StandardEdgeProducer extends AbstractEdgeProducer {
 	public void produce() throws JigsawPuzzleException {
 		// produce the first two points
 		// left end
+		// produza os primeiros dois pontos
+		// extremidade esquerda
 		this.actualPoints[0] = new Point(-sideLength / 2, 0);
 		// right end
+		// extremidade direita
 		this.actualPoints[11] = new Point(sideLength / 2, 0);
 		
 		this.generateRandomAlphas();
 		this.produceBaseline();
 		this.produceNeck();
 		this.produceBubble();
-		this.recalculate(); // turn if necessary
+		this.recalculate(); // turn if necessary // vire se necessário
 		this.generateShapes();
 	}
 
@@ -56,24 +68,34 @@ public class StandardEdgeProducer extends AbstractEdgeProducer {
 	 * 0 and 11 taken from old attempt
 	 * @throws JigsawPuzzleException 
 	 */
+	/**
+	 * irá produzir os pontos para os índices 1 e 10, precisa dos pontos indexados por
+	 * 0 e 11 retirados da tentativa anterior
+	 * @throws JigsawPuzzleException 
+	 */
 	private void produceBaseline() throws JigsawPuzzleException {
 
 		// all points on baseline are at y = 0
+		// todos os pontos da linha de base estão em y = 0
 		int yForPoints = 0;
 		// the rest that results if you substract all necessary stuff from the whole side
+		// o resto que resulta se você subtrair todas as coisas necessárias de todo o lado
 		int restBaseLine = sideLength - neckGap - 2
 				* minimumSpaceFromVertex;
 		// random from the rest calculated to add to left, difference has to be added right
+		// aleatório do resto calculado para adicionar à esquerda, a diferença deve ser adicionada à direita
 		int randomXToAddLeft = rand.nextInt(restBaseLine);
 		int randomXToAddRight = restBaseLine - randomXToAddLeft;
 		{
 			// test if logic is correct
+			// teste se a lógica está correta
 			int shouldBeSideLength = 2 * minimumSpaceFromVertex + randomXToAddLeft + randomXToAddRight
 					+ neckGap;
 			if (shouldBeSideLength != this.sideLength)
 				throw new JigsawPuzzleException("inner logic is incorrect");
 		}
 		// the neck gap will always be the same!
+		// a abertura do pescoço será sempre a mesma!
 		int xLeftPoint = actualPoints[0].x + minimumSpaceFromVertex + randomXToAddLeft;
 		int xRightPoint = actualPoints[11].x - minimumSpaceFromVertex - randomXToAddRight;
 		this.actualPoints[1] = new Point(xLeftPoint, yForPoints);
@@ -84,8 +106,13 @@ public class StandardEdgeProducer extends AbstractEdgeProducer {
 	 * produces points of indices 2 and 9 using 0,1,10,11 static implementation
 	 * for y values
 	 */
+	/**
+	 * produz pontos de índices 2 e 9 usando implementação estática 0,1,10,11
+	 * para valores y
+	 */
 	private void produceNeck() {
 		// always add this to the points 1 and 10 to get the newer points
+		// sempre adicione isso aos pontos 1 e 10 para obter os pontos mais novos
 		int staticToAdd = (sideLength / 20) * 3;
 		int xLeftPoint = this.actualPoints[1].x + staticToAdd;
 		int xRightPoint = this.actualPoints[10].x - staticToAdd;
@@ -97,6 +124,11 @@ public class StandardEdgeProducer extends AbstractEdgeProducer {
 
 	/**
 	 * produces points 3 to 8 using 0-2 and 9-11
+	 * @throws JigsawPuzzleException 
+	 * 
+	 */
+	/**
+	 * produz pontos 3 a 8 usando 0-2 e 9-11
 	 * @throws JigsawPuzzleException 
 	 * 
 	 */
@@ -176,6 +208,10 @@ public class StandardEdgeProducer extends AbstractEdgeProducer {
 
 	/**
 	 * concatenates the calculated points to two shapes and saves them
+	 * 
+	 */
+	/**
+	 * concatena os pontos calculados em duas formas e os salva
 	 * 
 	 */
 	private void generateShapes() {

@@ -16,12 +16,24 @@ import puzzle.storeage.JigsawPuzzleException;
  * @author Heinz
  *
  */
+/**
+ * Implementação do listener de eventos.
+ * Este é o sth. como o padrão do observador,
+ * este é o observável que qualquer um está implementando
+ * a interface GameEventListener pode adicionar a si mesmo
+ * para se informar sobre eventos.
+ * @autor Heinz
+ *
+ */
 public class GameState {
 	
 	private static Logger logger = Logger.getLogger(GameState.class);
 
 	/**
 	 * all listeners
+	 */
+	/**
+	 * todos os ouvintes
 	 */
 	private List<GameEventListener> gameListeners;
 
@@ -32,6 +44,12 @@ public class GameState {
 	/**
 	 * this method informs all the appended listeners about the
 	 * change that is defined by the GameEvent ge.
+	 * @param ge
+	 * @throws JigsawPuzzleException
+	 */
+	/**
+	 * este método informa todos os ouvintes anexados sobre o
+	 * alteração que é definida pelo GameEvent ge.
 	 * @param ge
 	 * @throws JigsawPuzzleException
 	 */
@@ -46,6 +64,10 @@ public class GameState {
 	 * add sb. as a listener for game events.
 	 * @param gel
 	 */
+	/**
+	 * adicione sb. como ouvinte de eventos de jogos.
+	 * @param gel
+	 */
 	public void addListener(GameEventListener gel) {
 		//logger.debug("adding listener: " + gel.getClass().getCanonicalName());
 		if (!this.gameListeners.contains(gel)) {
@@ -55,6 +77,11 @@ public class GameState {
 	
 	/**
 	 * remove sb. as the listener for game events.
+	 * @param gel
+	 * @return
+	 */
+	/**
+	 * remover sb. como o ouvinte dos eventos do jogo.
 	 * @param gel
 	 * @return
 	 */

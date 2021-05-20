@@ -103,6 +103,7 @@ public class GameMainWindow extends JFrame implements GameEventListener, Storeab
 		this.createBufferStrategy(2);
 		
 		// add me as a listener to the Game state
+		// adiciona-me como um ouvinte ao estado do jogo
 		GameCommander.getInstance().addListener(this);
 		
 		if (this.tutorialDialog == null) {
@@ -246,9 +247,11 @@ public class GameMainWindow extends JFrame implements GameEventListener, Storeab
         });
 		
 		// disable the options
+		// desabilita as opções
 		enableOptions(false);
 		
 		// game menu
+		// menu do jogo
 		this.gameMenu.add(this.gameNew);
 		this.gameMenu.add(this.gameReset);
 		this.gameMenu.add(new JSeparator());
@@ -258,27 +261,32 @@ public class GameMainWindow extends JFrame implements GameEventListener, Storeab
 		this.gameMenu.add(this.gameExit);
 		
 		// view menu
+		// ver menu
 		this.viewMenu.add(this.preview);
 		this.viewMenu.add(this.antiAliasingCheck);
 		
 		// option menu
+		// menu de opções
 		this.optionMenu.add(this.outlineCheck);
 		this.optionMenu.add(this.shadowCheck);
 		this.optionMenu.add(this.highlightCheck);
 		this.optionMenu.add(this.soundCheck);
 		
 		// menu bar
+		// Barra de menu
 		this.menuBar.add(this.gameMenu);
 		this.menuBar.add(this.optionMenu);
 		this.menuBar.add(this.viewMenu);
 		
 		// the status stuff
+		// as coisas de status
 		this.statusPanel = new JPanel();
 		this.statusInformation = new JLabel();
 		this.statusPanel.add(this.statusInformation);
 		this.initUI();
 		
 		// add stuff to the pane
+		// adiciona coisas ao painel
 		this.setLayout(new BorderLayout());
 		this.getContentPane().add(gamePanelScroll, BorderLayout.CENTER);
 		this.getContentPane().add(statusPanel, BorderLayout.SOUTH);
@@ -290,6 +298,9 @@ public class GameMainWindow extends JFrame implements GameEventListener, Storeab
 	
 	/**
 	 * START CLICKED
+	 */
+	/**
+	 * COMEÇAR CLICADO
 	 */
 	protected void clickedExitGame() {
 		System.exit(0);
@@ -315,6 +326,7 @@ public class GameMainWindow extends JFrame implements GameEventListener, Storeab
 		File toSave = this.fileChooser.openSaveDialog();
 		if (toSave == null) {
 			return; // ignore and donot save anything
+					// ignore e não salve nada
 		}
 		try {
 			GameCommander.getInstance().saveGame(toSave);
@@ -328,6 +340,7 @@ public class GameMainWindow extends JFrame implements GameEventListener, Storeab
 		File toLoad = this.fileChooser.openLoadDialog();
 		if (toLoad == null) {
 			return; // ignore if nothing selected
+					// ignorar se nada for selecionado
 		}
 		try {
 			GameCommander.getInstance().loadGame(toLoad);
@@ -372,15 +385,23 @@ public class GameMainWindow extends JFrame implements GameEventListener, Storeab
 	 * @param xbound
 	 * @param ybound
 	 */
+	/**
+	 * isso deve definir os limites, se e somente se o 
+	 * @param xbound
+	 * @param ybound
+	 */
     public void setBoundaries(int xbound, int ybound) {
 		GamePreferences gp = GameCommander.getInstance().getPreferences();
 
 		// set the size so that you can almost 'hide' a piece and it's possible to grab it although
+		// defina o tamanho de forma que você possa quase 'esconder' uma peça e seja possível agarrá-la embora
 		Dimension wishedSize = new Dimension(xbound + gp.getSideLength(), ybound + gp.getSideLength());
 		// the old size from the panel
+		// o tamanho antigo do painel
 		Dimension oldSize = this.gamePanel.getSize();
 		
 		// x,y set the larger variants
+		// x, y definem as variantes maiores
 		int xSize, ySize;
 		if (wishedSize.width > oldSize.width)
 			xSize = wishedSize.width;
@@ -390,9 +411,11 @@ public class GameMainWindow extends JFrame implements GameEventListener, Storeab
 		else ySize = oldSize.height;
 		
 		// the larger version for x and y for wished and old sizes
+		// a versão maior para xey para tamanhos desejados e antigos
 		Dimension newSize = new Dimension(xSize, ySize);
 
 		// later size was set!
+		// o tamanho posterior foi definido!
 		this.gamePanel.setPreferredSize(newSize);
 		this.gamePanel.setSize(newSize);
 	}

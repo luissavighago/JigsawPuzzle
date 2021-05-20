@@ -21,6 +21,11 @@ import puzzle.storeage.JigsawPuzzleException;
  * 
  * @author Heinz
  */
+/**
+ * 
+ * @autor Heinz
+ */
+
 
 public class PuzzleInputListener extends KeyAdapter implements
 		MouseMotionListener, MouseListener {
@@ -34,6 +39,7 @@ public class PuzzleInputListener extends KeyAdapter implements
 	private Point actPoint;
 
 	// indicator for dragging:
+	// indicador para arrastar:
 	private boolean dragging;
 
 	public PuzzleInputListener() {
@@ -42,17 +48,20 @@ public class PuzzleInputListener extends KeyAdapter implements
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// intentionally left empty
+		// deixado intencionalmente vazio
 
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		// intentionally left empty
+		// deixado intencionalmente vazio
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
 		// intentionally left empty
+		// deixado intencionalmente vazio
 	}
 
 	@Override
@@ -115,6 +124,11 @@ public class PuzzleInputListener extends KeyAdapter implements
 	 * 
 	 * @param p
 	 */
+	/**
+	 * gire uma peça (normalmente gire em 90 graus)
+	 * 
+	 * @param p
+	 */
 	private void turnPiece(Point p) {
 		try {
 			this.actPoint = p;
@@ -144,14 +158,21 @@ public class PuzzleInputListener extends KeyAdapter implements
 	 * 
 	 * @param pp
 	 */
+	/**
+	 * indica o destaque de uma peça do quebra-cabeça.
+	 * 
+	 * @param pp
+	 */
 	private void mouseHighlight(PuzzlePiece pp) {
 
 		// do nothing if the same again.
+		// não faça nada se for o mesmo novamente.
 		if (pp == lastHighlighted)
 			return;
 
 		try {
 			// reset the last highlighted one:
+			// redefine o último destacado:
 			if (lastHighlighted != null) {
 
 				GameEvent ge = new GameEvent(
@@ -168,6 +189,7 @@ public class PuzzleInputListener extends KeyAdapter implements
 				lastHighlighted = null;
 			}
 			// set the newly highlighted
+			// define o novo destaque
 			if (pp != null) {
 				GameEvent ge = new GameEvent(
 						GameEvent.State.PREPARE_TO_HIGHLIGHT_PIECE, pp);
@@ -188,6 +210,9 @@ public class PuzzleInputListener extends KeyAdapter implements
 
 	/**
 	 * drags the current piece to this position
+	 */
+	/**
+	 * arrasta a peça atual para esta posição
 	 */
 	private void dragging(Point p) {
 		// logger.debug("drag end: moving piece.");
@@ -218,6 +243,11 @@ public class PuzzleInputListener extends KeyAdapter implements
 	 * IN fact if no piece selected than don't prepare
 	 * @param p
 	 */
+	/**
+	 * prepara o arrasto armazenando a peça e o ponto.
+	 * De fato, se nenhuma peça for selecionada, então não prepare
+	 * @param p
+	 */
 	private void prepareDragging(Point p) {
 		// logger.debug("drag start: store point and piece.");
 		PuzzlePiece pp = this.gC.getPieceDisposer().findbyPoint(p);
@@ -232,6 +262,12 @@ public class PuzzleInputListener extends KeyAdapter implements
 
 	/**
 	 * ends the dragging
+	 * 
+	 * @param p
+	 * @throws JigsawPuzzleException
+	 */
+	/**
+	 * termina o arrastamento
 	 * 
 	 * @param p
 	 * @throws JigsawPuzzleException
@@ -257,6 +293,11 @@ public class PuzzleInputListener extends KeyAdapter implements
 			 * another bigger piece and repaint this piece! - this results in
 			 * repainting the single piece and not the new MultiPiece!
 			 */
+			/*
+			 * o problema começa aqui, porque você pode encaixar essa peça em
+			 * outra peça maior e repintar esta peça! - isto resulta em
+			 * repintar a peça única e não a nova MultiPiece!
+			 */
 			PuzzlePiece pp = null;
 
 			pp = selectedPiece.snap();
@@ -273,6 +314,11 @@ public class PuzzleInputListener extends KeyAdapter implements
 				// inform
 				// about the
 				// new piece
+				// bateu
+				// que
+				// informar
+				// sobre a
+				// nova peça
 			} else {
 				move = new GameEvent(GameEvent.State.MOVE_PIECE, selectedPiece); // if
 				// not
@@ -283,6 +329,14 @@ public class PuzzleInputListener extends KeyAdapter implements
 				// the
 				// selected
 				// piece
+				// não
+				// bateu
+				// que
+				// informar
+				// cerca de
+				// a
+				// selecionado
+				// Artigo
 			}
 
 			this.gC.deliverEvent(move);

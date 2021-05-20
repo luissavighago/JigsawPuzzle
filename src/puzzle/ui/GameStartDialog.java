@@ -42,8 +42,10 @@ public class GameStartDialog extends JDialog {
 	private final Dimension previewPanelSize = new Dimension(160, 200);
 
 	// parts that are in the design
+	// partes que estão no design
 
 	// start of the sideLength
+	// início do sideLength
 	private JRadioButton side20Pixel;
 	
 	private JRadioButton side30Pixel; 
@@ -54,7 +56,12 @@ public class GameStartDialog extends JDialog {
 
 	private JRadioButton side60Pixel;
 	// end of the sideLength
+	// fim do sideLength
 
+	private JRadioButton side100Pixel;
+	
+	private JRadioButton side200Pixel;
+	
 	private JCheckBox allowTurn;
 
 	private JLabel imageInfo;
@@ -68,6 +75,7 @@ public class GameStartDialog extends JDialog {
 	private JButton startButton;
 
 	// edges
+	// bordas
 	private JRadioButton standardEdge;
 	
 	private JRadioButton flatEdge;
@@ -75,6 +83,7 @@ public class GameStartDialog extends JDialog {
 	private JRadioButton modernEdge;
 	
 	// other stuff
+	// outras coisas
 	private JFileChooser imgFileChoo;
 
 	private File currentFile;
@@ -147,6 +156,24 @@ public class GameStartDialog extends JDialog {
 				retrieveAndShowImageInfo();
 			}
 		});
+		
+		this.side100Pixel = new JRadioButton(PuzzleProperties
+				.getLocalized("size100px"));
+		this.side100Pixel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				puzzlePieceSize = 100;
+				retrieveAndShowImageInfo();
+			}
+		});
+		
+		this.side200Pixel = new JRadioButton(PuzzleProperties
+				.getLocalized("size200px"));
+		this.side200Pixel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				puzzlePieceSize = 200;
+				retrieveAndShowImageInfo();
+			}
+		});
 
 		this.allowTurn = new JCheckBox(PuzzleProperties
 				.getLocalized("optionAllowTurn"));
@@ -193,11 +220,14 @@ public class GameStartDialog extends JDialog {
 		ButtonGroup sideLengthButtonGroup = new ButtonGroup();
 
 		// add buttons to side Length group
+		// adiciona botões ao grupo de comprimento lateral
 		sideLengthButtonGroup.add(this.side20Pixel);
 		sideLengthButtonGroup.add(this.side30Pixel);
 		sideLengthButtonGroup.add(this.side40Pixel);
 		sideLengthButtonGroup.add(this.side50Pixel);
 		sideLengthButtonGroup.add(this.side60Pixel);
+		sideLengthButtonGroup.add(this.side100Pixel);
+		sideLengthButtonGroup.add(this.side200Pixel);
 
 		JLabel pieceSizeLabel = new JLabel(PuzzleProperties
 				.getLocalized("newGameDialogPieceSize"));
@@ -249,6 +279,8 @@ public class GameStartDialog extends JDialog {
 		topRightPanel.add(this.side40Pixel);
 		topRightPanel.add(this.side50Pixel);
 		topRightPanel.add(this.side60Pixel);
+		topRightPanel.add(this.side100Pixel);
+		topRightPanel.add(this.side200Pixel);
 		topRightPanel.add(new JSeparator());
 		topRightPanel.add(additionalOptionsLabel);
 		topRightPanel.add(this.allowTurn);
@@ -292,6 +324,7 @@ public class GameStartDialog extends JDialog {
 			return;
 		}
 		this.image.resize(); // finally resize the image
+							 // finalmente redimensionar a imagem
 
 		boolean allowTurn = this.allowTurn.isSelected();
 
@@ -357,6 +390,11 @@ public class GameStartDialog extends JDialog {
 	 * the image to fit in the window not in other ratio and the resulting
 	 * puzzle pieces
 	 */
+	/**
+	 * recuperar informações sobre o arquivo de imagem real e mostrar deve mostrar x, y,
+	 * a imagem para caber na janela não em outra proporção e o resultado
+	 * peças de quebra-cabeças
+	 */
 	private void retrieveAndShowImageInfo() {
 
 		if (this.image == null) {
@@ -418,6 +456,11 @@ public class GameStartDialog extends JDialog {
 		 * 
 		 * @param img
 		 */
+		/**
+		 * carregue esta imagem (com o tamanho certo) no centro da visualização
+		 * 
+		 * @param img
+		 */
 		void loadImage(Image img) {
 			this.label.setIcon(new ImageIcon(img));
 			// this.setSize(previewPanelSize);
@@ -428,6 +471,10 @@ public class GameStartDialog extends JDialog {
 		/**
 		 * unloads this image and resets the noImagePresent String from the
 		 * current language defaults
+		 */
+		/**
+		 * descarrega esta imagem e redefine a string noImagePresent do
+		 * padrões de idioma atuais
 		 */
 		void unloadImage() {
 			this.label.setText(PuzzleProperties.getLocalized("noImagePresent"));

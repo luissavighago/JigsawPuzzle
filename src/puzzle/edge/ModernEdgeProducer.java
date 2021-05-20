@@ -14,6 +14,13 @@ import puzzle.storeage.JigsawPuzzleException;
  * @author Heinz
  * 
  */
+/**
+ * uma tentativa de criar bordas de peças de quebra-cabeça usou livremente a ideia de:
+ * http://www.funphotoart.com/web-graphics/learn-to-make-jigsaw-puzzle-piece-made-of-painted-cardboard-like-material
+ * 
+ * @autor Heinz
+ * 
+ */
 
 public class ModernEdgeProducer extends AbstractEdgeProducer {
 
@@ -61,6 +68,9 @@ public class ModernEdgeProducer extends AbstractEdgeProducer {
 	/**
 	 * generate some random values
 	 */
+	/**
+	 * gerar alguns valores aleatórios
+	 */
 	private void randomDegrees() {
 		final int maxDev = 2;
 		this.startDegree = randomlyGenerateDeviationAbs(this.startDegree, maxDev);
@@ -70,6 +80,9 @@ public class ModernEdgeProducer extends AbstractEdgeProducer {
 
 	/**
 	 * will produce the points for indices 0,1, last and the one before the last
+	 */
+	/**
+	 * irá produzir os pontos para os índices 0,1, último e um antes do último
 	 */
 	private void produceBaseline() {
 		// start plus end point
@@ -88,10 +101,18 @@ public class ModernEdgeProducer extends AbstractEdgeProducer {
 	/**
 	 * for going through the circle this is the stepwidth
 	 */
+	/**
+	 * para passar pelo círculo, esta é a largura do passo
+	 */
 	private static final int STEP = 10;
 
 	/**
 	 * produces the circle, so the bubble of the piece
+	 * 
+	 * @return
+	 */
+	/**
+	 * produz o círculo, então a bolha da peça
 	 * 
 	 * @return
 	 */
@@ -102,12 +123,21 @@ public class ModernEdgeProducer extends AbstractEdgeProducer {
 
 		int count = 0; // the count for actualPoints (do not interfere with the
 		// first and last two that represent the baseline)
+					   // a contagem de pontos reais (não interfere com 
+		// os dois primeiros e os dois últimos que representam a linha de base)
+
 
 		int translateY = randomlyGenerateDeviation(this.sideLength / 10, 50);
 
 		/*
 		 * here we have to use another apporach, because we should
 		 * not overwrite the last point! old appraoch:
+		 * for (int i = startDegree; i < endDegree; i += STEP) {
+		 * 
+		 */
+		/*
+		 * aqui temos que usar outra abordagem, porque devemos
+		 * não sobrescrever o último ponto! velha abordagem:
 		 * for (int i = startDegree; i < endDegree; i += STEP) {
 		 * 
 		 */
@@ -128,6 +158,11 @@ public class ModernEdgeProducer extends AbstractEdgeProducer {
 	 * 
 	 * @return
 	 */
+	/**
+	 * produz um número aleatório aproximadamente em torno do comprimento do lado dividido por 5
+	 * 
+	 * @return
+	 */
 	private int generateRandomNumberAround() {
 
 		int around = this.sideLength / 5;
@@ -142,6 +177,16 @@ public class ModernEdgeProducer extends AbstractEdgeProducer {
 	 * maxProcentualDeviation from averageValue, e.g. for
 	 * randomlyGenerateDeviation(100,20) will generate a number between 80 and
 	 * 120. Obviously this won't work if averageValue is 0!
+	 * 
+	 * @param averageValue
+	 * @param maxProcentualDeviation
+	 * @return
+	 */
+	/**
+	 * retorna um número gerado aleatoriamente. O número está dentro do dado
+	 * maxProcentualDeviation from averageValue, por exemplo para
+	 * randomlyGenerateDeviation (100,20) irá gerar um número entre 80 e
+	 * 120. Obviamente, isso não funcionará se o valor médio for 0!
 	 * 
 	 * @param averageValue
 	 * @param maxProcentualDeviation
