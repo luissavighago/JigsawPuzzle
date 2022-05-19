@@ -26,15 +26,10 @@ import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
+import java.util.Base64;
 
 public class StorageUtil {
 	
-	private static BASE64Encoder base64Enc;
-	private static BASE64Decoder base64Dec;
-
 	/**
 	 * find a direct node under the provided node with the name given in
 	 * nodeName
@@ -89,10 +84,7 @@ public class StorageUtil {
 	public static void storeBinaryData(Node e, String nodeName, byte[] data) {
 		// encode the byte stream in base64
 		// codifica o fluxo de bytes em base64
-		if (base64Enc == null) {
-			base64Enc = new BASE64Encoder();
-		}
-		String b64EncodedData = base64Enc.encode(data);		
+		String b64EncodedData = Base64.getEncoder().encodeToString(data);		
 
 		Document doc = e.getOwnerDocument();
 
@@ -148,21 +140,14 @@ public class StorageUtil {
 
 		// decode from base 64
 		// decodifica da base 64
-		if (base64Dec == null) {
-			base64Dec = new BASE64Decoder();
-		}
 		byte[] data;
 		try {
-			data = base64Dec.decodeBuffer(dataNode.getData());
+			data = Base64.getDecoder().decode(dataNode.getData());
 			return data;
 		} catch (DOMException e1) {
 			e1.printStackTrace();
 			throw new LoadGameException(e1);
-		} catch (IOException e1) {
-			e1.printStackTrace();
-			throw new LoadGameException(e1);
 		}
-
 		
 	}
 
