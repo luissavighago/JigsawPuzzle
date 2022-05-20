@@ -109,7 +109,7 @@ public class GameMainWindow extends JFrame implements GameEventListener, Storeab
 		if (this.tutorialDialog == null) {
 			this.tutorialDialog =  new TutorialDialog(this);
 		}
-        this.tutorialDialog.setVisible(true);
+        
 	}
 
 	public GamePanel getGamePanel() {
