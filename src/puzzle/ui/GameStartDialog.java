@@ -319,9 +319,11 @@ public class GameStartDialog extends JDialog {
 					.getLocalized("noGoodQualityMessage");
 			String header = PuzzleProperties
 					.getLocalized("noGoodQualityHeader");
-			JOptionPane.showConfirmDialog(this, message, header,
-					JOptionPane.YES_NO_OPTION);
-			return;
+			int opcao =  JOptionPane.showConfirmDialog(this, message, header, JOptionPane.YES_NO_OPTION);
+			
+			if(opcao != 0) {
+				return;
+			}
 		}
 		this.image.resize(); // finally resize the image
 							 // finalmente redimensionar a imagem
