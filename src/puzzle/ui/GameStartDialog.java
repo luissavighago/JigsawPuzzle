@@ -34,6 +34,7 @@ import puzzle.edge.StandardEdgeProducer;
 import puzzle.storeage.JigsawPuzzleException;
 import puzzle.ui.extensions.ExtensionFileFilter;
 import puzzle.ui.extensions.ImagePreview;
+import puzzle.ImageFilter;
 
 public class GameStartDialog extends JDialog {
 	
@@ -427,12 +428,8 @@ public class GameStartDialog extends JDialog {
 				.getLocalized("loadingImageFile"));
 		this.imgFileChoo.setMultiSelectionEnabled(false);
 
-		this.eff = new ExtensionFileFilter();
-		this.eff.addExtension("jpg");
-		this.eff.addExtension("gif");
-		this.eff.setDirectoryAccept(true);
-
-		this.imgFileChoo.setFileFilter(this.eff);
+		this.imgFileChoo.addChoosableFileFilter(new ImageFilter());
+		this.imgFileChoo.setAcceptAllFileFilterUsed(false);
 
 		this.imgFileChoo.setAccessory(new ImagePreview(this.imgFileChoo));
 	}
