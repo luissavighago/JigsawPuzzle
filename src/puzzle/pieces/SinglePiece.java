@@ -144,11 +144,69 @@ public class SinglePiece extends PuzzlePiece {
 	 * @throws JigsawPuzzleException
 	 * 
 	 */
+	
+	private int getSideLength() {
+		return GameCommander.getInstance().getPreferences().getSideLength();
+	}
+	
+	private void startTopEdge() throws JigsawPuzzleException {
+		if (this.topEdge == null) {
+			GeneralPath path = new GeneralPath();
+			path.moveTo(-(getSideLength() / 2), 0);
+			path.lineTo(getSideLength() / 2, 0);
+			this.topEdge = new Edge(Edge.Type.NULL, -1, path);
+		}
+		topEdge.setOwnerPiece(this);
+		Offset relativeToCenter = new Offset(0, -(getSideLength() / 2));
+		topEdge.setOffset(relativeToCenter); // means that I have the absolute value in the shape of the edge!
+											 // significa que tenho o valor absoluto na forma da borda!
+		topEdge.move(new Offset(this.center.x + relativeToCenter.getX(),
+				this.center.y + relativeToCenter.getY()));
+	}
+	
+	private void startRightEdge() throws JigsawPuzzleException {
+		if (this.rightEdge == null) {
+			GeneralPath path = new GeneralPath();
+			path.moveTo(0, - getSideLength() / 2);
+			path.lineTo(0, getSideLength() / 2);
+			this.rightEdge = new Edge(Edge.Type.NULL, -1, path);
+		}
+		rightEdge.setOwnerPiece(this);
+		Offset relativeToCenter = new Offset(getSideLength() / 2, 0);
+		rightEdge.setOffset(relativeToCenter);
+		rightEdge.move(new Offset(this.center.x + relativeToCenter.getX(),
+				this.center.y + relativeToCenter.getY()));
+	}
+	
+	private void startBottomEdge() throws JigsawPuzzleException {
+		if (this.bottomEdge == null) {
+			GeneralPath path = new GeneralPath();
+			path.moveTo(-(getSideLength() / 2), 0);
+			path.lineTo(getSideLength() / 2, 0);
+			this.bottomEdge = new Edge(Edge.Type.NULL, -1, path);
+		}
+		bottomEdge.setOwnerPiece(this);
+		Offset relativeToCenter = new Offset(0, getSideLength() / 2);
+		bottomEdge.setOffset(relativeToCenter);
+		bottomEdge.move(new Offset(this.center.x + relativeToCenter.getX(),
+				this.center.y + relativeToCenter.getY()));
+	}
+	
+	private void startLeftEdge() throws JigsawPuzzleException {
+		if (this.leftEdge == null) {
+			GeneralPath path = new GeneralPath();
+			path.moveTo(0, getSideLength() / 2);
+			path.lineTo(0, -(getSideLength() / 2));
+			this.leftEdge = new Edge(Edge.Type.NULL, -1, path);
+		}
+		leftEdge.setOwnerPiece(this);
+		Offset v = new Offset(-(getSideLength() / 2), 0);
+		leftEdge.setOffset(v);
+		leftEdge.move(new Offset(this.center.x + v.getX(), this.center.y
+				+ v.getY()));
+	}
+	
 	private void initEdges() throws JigsawPuzzleException {
-		final int sideLength = GameCommander.getInstance().getPreferences()
-				.getSideLength();
-
-		Offset relativeToCenter;
 		/*
 		 * initializes the four edges to fit together in a generalpath of this
 		 * piece
@@ -157,65 +215,10 @@ public class SinglePiece extends PuzzlePiece {
 		 * inicializa as quatro arestas para se encaixarem em um caminho geral deste
 		 * Artigo
 		 */
-
-		// start topEdge
-		// iniciar topEdge
-		if (this.topEdge == null) {
-			GeneralPath path = new GeneralPath();
-			path.moveTo(-(sideLength / 2), 0);
-			path.lineTo(sideLength / 2, 0);
-			this.topEdge = new Edge(Edge.Type.NULL, -1, path);
-		}
-		topEdge.setOwnerPiece(this);
-		relativeToCenter = new Offset(0, -(sideLength / 2));
-		topEdge.setOffset(relativeToCenter); // means that I have the absolute value in the shape of the edge!
-											 // significa que tenho o valor absoluto na forma da borda!
-		topEdge.move(new Offset(this.center.x + relativeToCenter.getX(),
-				this.center.y + relativeToCenter.getY()));
-		// end topEdge
-		// fim do topoEdge
-
-		// start rightEdge
-		if (this.rightEdge == null) {
-			GeneralPath path = new GeneralPath();
-			path.moveTo(0, -sideLength / 2);
-			path.lineTo(0, sideLength / 2);
-			this.rightEdge = new Edge(Edge.Type.NULL, -1, path);
-		}
-		rightEdge.setOwnerPiece(this);
-		relativeToCenter = new Offset(sideLength / 2, 0);
-		rightEdge.setOffset(relativeToCenter);
-		rightEdge.move(new Offset(this.center.x + relativeToCenter.getX(),
-				this.center.y + relativeToCenter.getY()));
-		// end rightEdge
-
-		// start bottomEdge
-		if (this.bottomEdge == null) {
-			GeneralPath path = new GeneralPath();
-			path.moveTo(-(sideLength / 2), 0);
-			path.lineTo(sideLength / 2, 0);
-			this.bottomEdge = new Edge(Edge.Type.NULL, -1, path);
-		}
-		bottomEdge.setOwnerPiece(this);
-		relativeToCenter = new Offset(0, sideLength / 2);
-		bottomEdge.setOffset(relativeToCenter);
-		bottomEdge.move(new Offset(this.center.x + relativeToCenter.getX(),
-				this.center.y + relativeToCenter.getY()));
-		// end bottomEdge
-
-		// start leftEdge
-		if (this.leftEdge == null) {
-			GeneralPath path = new GeneralPath();
-			path.moveTo(0, sideLength / 2);
-			path.lineTo(0, -(sideLength / 2));
-			this.leftEdge = new Edge(Edge.Type.NULL, -1, path);
-		}
-		leftEdge.setOwnerPiece(this);
-		Offset v = new Offset(-(sideLength / 2), 0);
-		leftEdge.setOffset(v);
-		leftEdge.move(new Offset(this.center.x + v.getX(), this.center.y
-				+ v.getY()));
-		// end leftEdge
+		startTopEdge();
+		startRightEdge();
+		startBottomEdge();
+		startLeftEdge();
 	}
 
 	@Override
